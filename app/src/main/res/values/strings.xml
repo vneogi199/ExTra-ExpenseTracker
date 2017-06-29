@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ExTra - ExpenseTracker</string>
+    <string name="enter_expense_amount">Enter expense amount</string>
+    <string name="what_was_this_expense_for">What was this expense for?</string>
+    <string name="select_expense_date_and_time">Select expense date and time</string>
 </resources>
