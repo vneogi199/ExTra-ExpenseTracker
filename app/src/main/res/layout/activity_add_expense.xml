@@ -1,18 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="comexpensetracker.medium.extra_expensetracker.AddExpense">
 
-    <TextView
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/message"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/expenseNameIcon" />
+
+    <EditText
+        android:id="@+id/expenseNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignTop="@+id/expenseNameIcon"
+        android:layout_marginLeft="90dp"
+        android:width="250dp"
+        android:ems="10"
+        android:hint="@string/what_was_this_expense_for"
+        android:inputType="text" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/amt_icon"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/expenseAmtIcon" />
+
+    <EditText
+        android:id="@+id/expenseAmtText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/expenseAmtIcon"
+        android:layout_marginLeft="90dp"
+        android:width="250dp"
+        android:ems="10"
+        android:hint="@string/enter_expense_amount"
+        android:inputType="number" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/calendar_icon"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/expenseTimestampIcon" />
+
+    <EditText
+        android:id="@+id/expenseTimestampText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/expenseTimestampIcon"
+        android:layout_marginLeft="90dp"
+        android:width="250dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/select_expense_date_and_time"
+        android:inputType="none" />
+
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/category_selection_icon"
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/expenseCategorySelectionIcon" />
+
+    <TextView
+        android:id="@+id/expenseCategorySelectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/expenseCategorySelectionIcon"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="90dp"
+        android:textSize="20dp"
+        android:width="250dp"
+        android:hint="@string/category" />
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="280dp"
+                >
+
+                <ImageView
+                    android:id="@+id/BillsIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/bill_icon"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_around_bills_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="12dp"
+                    android:text="@string/bills"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="170dp"
+                android:layout_marginTop="280dp"
+                >
+
+                <ImageView
+                    android:id="@+id/GroceriesIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/groceries_icon"
+                    android:background="@drawable/circle_around_groceries_icon"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/groceries"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="280dp"
+                >
+
+                <ImageView
+                    android:id="@+id/EntertainmentIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/entertainment_icon"
+                    android:background="@drawable/circle_around_entertainment_icon"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/entertainment"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="90dp"
+                android:layout_marginTop="350dp"
+                >
+
+                <ImageView
+                    android:id="@+id/FuelIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/fuel_icon"
+                    android:background="@drawable/circle_around_fuel_icon"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/fuel"
+                    android:textSize="12dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

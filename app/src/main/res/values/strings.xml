@@ -25,4 +25,12 @@
     <string name="slide_3_desc1">You are good to go</string>
     <string name="slide_3_image">View Stats</string>
 
+    <string name="enter_expense_amount">Enter expense amount</string>
+    <string name="what_was_this_expense_for">What was this expense for?</string>
+    <string name="select_expense_date_and_time">Select expense date and time</string>
+    <string name="category">Category</string>
+    <string name="bills">Bills</string>
+    <string name="groceries">Groceries</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="fuel">Fuel</string>
 </resources>
