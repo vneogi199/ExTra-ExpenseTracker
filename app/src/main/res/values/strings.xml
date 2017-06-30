@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">ExTra - ExpenseTracker</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_start_screen">StartScreen</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_title">ExTra - Expense Tracker</string>
+
+    <string name="slide_1_desc">Welcome User!</string>
+    <string name="slide_1_desc1">Set your budget</string>
+    <string name="slide_1_image">Set your budget</string>
+
+    <string name="slide_2_desc">Add Expense</string>
+    <string name="slide_2_image">Add Expense</string>
+
+    <string name="slide_3_desc">View Graphs and</string>
+    <string name="slide_3_desc1">You are good to go</string>
+    <string name="slide_3_image">View Stats</string>
+
 </resources>
