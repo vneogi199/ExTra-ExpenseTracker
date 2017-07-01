@@ -11,16 +11,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".AddExpense"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".IntroSlider" />
-        <activity android:name=".WelcomeActivity">
+            android:windowSoftInputMode="adjustPan"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterForm"></activity>
+        <activity android:name=".IntroSlider" />
+        <activity android:name=".WelcomeActivity">
+
+        </activity>
+        <activity android:name=".RegisterForm"/>
     </application>
 
 </manifest>

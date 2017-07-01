@@ -7,11 +7,9 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.TimePicker
 import android.text.format.DateFormat
 import android.util.Log
+import android.widget.*
 import java.util.*
 
 class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
@@ -28,6 +26,15 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
     var hourFinal : Int = 0
     var minuteFinal : Int = 0
 
+    var bills_status = 0
+    var groceries_status = 0
+    var entertainment_status = 0
+    var fuel_status = 0
+    var food_status = 0
+    var health_status = 0
+    var travel_status = 0
+    var shopping_status = 0
+    var other_status = 0
 
     var expenseTimestampText : EditText ?= null
 
@@ -38,15 +45,78 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         expenseTimestampText = findViewById(R.id.expenseTimestampText) as EditText
         (expenseTimestampText as EditText).setOnClickListener{
 
-            var calendar : Calendar = Calendar.getInstance()
+            val calendar : Calendar = Calendar.getInstance()
             year = calendar.get(Calendar.YEAR)
             month = calendar.get(Calendar.MONTH)
             day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            var datePickerDialog : DatePickerDialog = DatePickerDialog(this@AddExpense, this@AddExpense, year, month, day)
+            val datePickerDialog : DatePickerDialog = DatePickerDialog(this@AddExpense, this@AddExpense, year, month, day)
             datePickerDialog.show()
 
         }
+
+        val billsLayout = findViewById(R.id.BillsLayout) as LinearLayout
+        val billsTick = findViewById(R.id.TickIconBills) as ImageView
+
+        billsLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(billsTick)
+        })
+
+        val groceriesLayout = findViewById(R.id.GroceriesLayout) as LinearLayout
+        val groceriesTick = findViewById(R.id.TickIconGroceries) as ImageView
+
+        groceriesLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(groceriesTick)
+        })
+
+        val entertainmentLayout = findViewById(R.id.EntertainmentLayout) as LinearLayout
+        val entertainmentTick = findViewById(R.id.TickIconEntertainment) as ImageView
+
+        entertainmentLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(entertainmentTick)
+        })
+
+        val fuelLayout = findViewById(R.id.FuelLayout) as LinearLayout
+        val fuelTick = findViewById(R.id.TickIconFuel) as ImageView
+
+        fuelLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(fuelTick)
+        })
+
+        val foodLayout = findViewById(R.id.FoodLayout) as LinearLayout
+        val foodTick = findViewById(R.id.TickIconFood) as ImageView
+
+        foodLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(foodTick)
+        })
+
+        val healthLayout = findViewById(R.id.HealthLayout) as LinearLayout
+        val healthTick = findViewById(R.id.TickIconHealth) as ImageView
+
+        healthLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(healthTick)
+        })
+
+        val travelLayout = findViewById(R.id.TravelLayout) as LinearLayout
+        val travelTick = findViewById(R.id.TickIconTravel) as ImageView
+
+        travelLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(travelTick)
+        })
+
+        val shoppingLayout = findViewById(R.id.ShoppingLayout) as LinearLayout
+        val shoppingTick = findViewById(R.id.TickIconShopping) as ImageView
+
+        shoppingLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(shoppingTick)
+        })
+
+        val otherLayout = findViewById(R.id.OtherLayout) as LinearLayout
+        val otherTick = findViewById(R.id.TickIconOther) as ImageView
+
+        otherLayout.setOnClickListener(View.OnClickListener {
+            toggleTickmark(otherTick)
+        })
 
     }
 
@@ -55,11 +125,11 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         monthFinal = monthSelected + 1
         dayFinal = dayOfMonthSelected
 
-        var calendar : Calendar = Calendar.getInstance()
+        val calendar : Calendar = Calendar.getInstance()
         hour = calendar.get(Calendar.HOUR_OF_DAY)
         minute = calendar.get(Calendar.MINUTE)
 
-        var timePickerDialog : TimePickerDialog = TimePickerDialog(this@AddExpense, this@AddExpense, hour, minute, DateFormat.is24HourFormat(this))
+        val timePickerDialog : TimePickerDialog = TimePickerDialog(this@AddExpense, this@AddExpense, hour, minute, DateFormat.is24HourFormat(this))
         timePickerDialog.show()
     }
 
@@ -69,4 +139,10 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         Log.d("TAG", yearFinal.toString() + "\n" + monthFinal.toString() +  "\n" + dayFinal.toString() +  "\n" + hourFinal.toString() +  "\n" + minuteFinal.toString())
     }
 
+    fun toggleTickmark(tick : View){
+            if(tick.visibility==View.GONE)
+                tick.visibility=View.VISIBLE
+            else if(tick.visibility==View.VISIBLE)
+                tick.visibility=View.GONE
+    }
 }

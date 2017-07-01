@@ -11,7 +11,8 @@
         android:src="@drawable/message"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="30dp"
-        android:id="@+id/expenseNameIcon" />
+        android:id="@+id/expenseNameIcon"
+        tools:ignore="RtlHardcoded" />
 
     <EditText
         android:id="@+id/expenseNameText"
@@ -97,16 +98,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="90dp"
                 android:orientation="vertical"
-                android:clickable="true"
                 android:id="@+id/BillsLayout">
 
-                <ImageView
-                    android:id="@+id/BillsIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_bills_icon"
-                    android:src="@drawable/bill_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/BillsIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_bills_icon"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/bill_icon" />
+                    <ImageView
+                        android:id="@+id/TickIconBills"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,15 +139,34 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="170dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/GroceriesLayout">
 
-                <ImageView
-                    android:id="@+id/GroceriesIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_groceries_icon"
-                    android:src="@drawable/groceries_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/GroceriesIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_groceries_icon"
+                        android:src="@drawable/bill_icon"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconGroceries"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,15 +180,34 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/EntertainmentLayout">
 
-                <ImageView
-                    android:id="@+id/EntertainmentIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_entertainment_icon"
-                    android:src="@drawable/entertainment_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/EntertainmentIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_entertainment_icon"
+                        android:src="@drawable/entertainment_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconEntertainment"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -165,15 +222,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="90dp"
                 android:layout_marginTop="70dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/FuelLayout">
 
-                <ImageView
-                    android:id="@+id/FuelIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_fuel_icon"
-                    android:src="@drawable/fuel_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/FuelIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_fuel_icon"
+                        android:src="@drawable/fuel_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconFuel"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -188,15 +264,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="170dp"
                 android:layout_marginTop="70dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/FoodLayout">
 
-                <ImageView
-                    android:id="@+id/FoodIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_food_icon"
-                    android:src="@drawable/food_drink_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/FoodIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_food_icon"
+                        android:src="@drawable/food_drink_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconFood"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -211,15 +307,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
                 android:layout_marginTop="70dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/HealthLayout">
 
-                <ImageView
-                    android:id="@+id/HealthIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_health_icon"
-                    android:src="@drawable/health_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/HealthIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_health_icon"
+                        android:src="@drawable/health_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconHealth"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -234,15 +349,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="90dp"
                 android:layout_marginTop="140dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/TravelLayout">
 
-                <ImageView
-                    android:id="@+id/TravelIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_travel_icon"
-                    android:src="@drawable/travel_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/TravelIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_travel_icon"
+                        android:src="@drawable/travel_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconTravel"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -257,15 +392,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="170dp"
                 android:layout_marginTop="140dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/ShoppingLayout">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/ShoppingIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_shopping_icon"
-                    android:src="@drawable/shopping_icon" />
+                    <ImageView
+                        android:id="@+id/ShoppingIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_shopping_icon"
+                        android:src="@drawable/shopping_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconShopping"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -279,15 +432,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
                 android:layout_marginTop="140dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/OtherLayout">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/OtherIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_around_other_icon"
-                    android:src="@drawable/other_icon" />
+                    <ImageView
+                        android:id="@+id/OtherIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_around_other_icon"
+                        android:src="@drawable/other_icon"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+                    <ImageView
+                        android:id="@+id/TickIconOther"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/tick_icon"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:visibility="gone"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -61,4 +61,6 @@
     <string name="err_msg_password">Enter the password</string>
     <string name="err_msg_confirm_password">Passwords do not match</string>
 
+    <string name="button_label_on">\u2713 on</string>
+    <string name="button_label_off">off</string>
 </resources>
