@@ -8,6 +8,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <string name="title_activity_welcome">Home Screen</string>
+
+    <!-- Intro Slider Text -->
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
@@ -25,6 +27,7 @@
     <string name="slide_3_desc1">You are good to go</string>
     <string name="slide_3_image">View Stats</string>
 
+    <!-- Add Expense Text -->
     <string name="enter_expense_amount">Enter expense amount</string>
     <string name="what_was_this_expense_for">What was this expense for?</string>
     <string name="select_expense_date_and_time">Select expense date and time</string>
@@ -41,4 +44,21 @@
     <string name="add_a_note">Add a note</string>
     <string name="add_tags">Add tags</string>
     <string name="save_btn_text">Save</string>
+
+    <!-- Register Form Error Text -->
+    <string name="register_title">Welcome to ExTra - Expense Tracker</string>
+    <string name="register_header">Register</string>
+    <string name="register_sub_header">Enter your details</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_mobile_no">Mob Number</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_mobile_no">Enter valid mobile no</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="err_msg_confirm_password">Passwords do not match</string>
+
 </resources>

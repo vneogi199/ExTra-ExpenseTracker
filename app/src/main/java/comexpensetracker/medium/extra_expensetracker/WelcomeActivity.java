@@ -86,7 +86,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchHomeScreen();
+                    Intent intent = new Intent(WelcomeActivity.this, RegisterForm.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -117,7 +118,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(WelcomeActivity.this, AddExpense.class));
+        startActivity(new Intent(WelcomeActivity.this, RegisterForm.class));
         finish();
     }
 

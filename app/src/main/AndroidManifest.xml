@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddExpense" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".AddExpense"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".IntroSlider" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
@@ -18,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterForm"></activity>
     </application>
 
 </manifest>
