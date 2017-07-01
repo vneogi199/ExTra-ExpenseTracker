@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddExpense" />
+        <activity android:name=".AddExpense" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".IntroSlider" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>

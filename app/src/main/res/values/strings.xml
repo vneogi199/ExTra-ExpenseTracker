@@ -33,4 +33,12 @@
     <string name="groceries">Groceries</string>
     <string name="entertainment">Entertainment</string>
     <string name="fuel">Fuel</string>
+    <string name="foodndrinks"><![CDATA[Food & Drinks]]></string>
+    <string name="health">Health</string>
+    <string name="travel">Travel</string>
+    <string name="shopping">Shopping</string>
+    <string name="other">Other</string>
+    <string name="add_a_note">Add a note</string>
+    <string name="add_tags">Add tags</string>
+    <string name="save_btn_text">Save</string>
 </resources>
