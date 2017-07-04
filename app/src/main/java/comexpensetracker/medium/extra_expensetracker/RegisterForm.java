@@ -1,5 +1,6 @@
 package comexpensetracker.medium.extra_expensetracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +12,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.regex.Pattern;
 
-public class RegisterForm extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    private Toolbar toolbar;
+public class RegisterForm extends BaseActivity implements View.OnClickListener {
+
+    // --Commented out by Inspection (4/7/17 5:42 PM):private Toolbar toolbar;
     private EditText inputName, inputEmail, inputMobileNo, inputPassword, inputConfirmPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutMobileNo, inputLayoutPassword, inputLayoutConfirmPassword;
-    private Button btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,7 @@ public class RegisterForm extends AppCompatActivity {
         inputMobileNo = (EditText) findViewById(R.id.input_mobile_no);
         inputPassword = (EditText) findViewById(R.id.input_password);
         inputConfirmPassword = (EditText) findViewById(R.id.input_confirm_password);
-        btnSignUp = (Button) findViewById(R.id.btn_signup);
+        Button btnSignUp = (Button) findViewById(R.id.btn_signup);
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
@@ -46,12 +52,18 @@ public class RegisterForm extends AppCompatActivity {
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
         inputConfirmPassword.addTextChangedListener(new MyTextWatcher(inputConfirmPassword));
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                submitForm();
-            }
-        });
+        btnSignUp.setOnClickListener(this);
+
+        if (Hasura.getUserSessionId() != null) {
+            startActivity(new Intent(RegisterForm.this, AddExpense.class));
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        submitForm();
+        handleRegistration();
     }
 
     /**
@@ -153,15 +165,11 @@ public class RegisterForm extends AppCompatActivity {
     }
 
     private boolean isValidMobile(String phone) {
-        boolean check=false;
-        if(!Pattern.matches("[a-zA-Z]+", phone)) {
-            if(phone.length() != 10) {
-                check = false;
-            } else {
-                check = true;
-            }
+        boolean check = false;
+        if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            check = phone.length() == 10;
         } else {
-            check=false;
+            check = false;
         }
         return check;
     }
@@ -178,7 +186,7 @@ public class RegisterForm extends AppCompatActivity {
 
     private class MyTextWatcher implements TextWatcher {
 
-        private View view;
+        private final View view;
 
         private MyTextWatcher(View view) {
             this.view = view;
@@ -209,6 +217,33 @@ public class RegisterForm extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private void handleRegistration() {
+        showProgressIndicator();
+        Hasura.auth.register(new AuthRequest(inputName.getText().toString(), inputPassword.getText().toString())).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                hideProgressIndicator();
+                if (response.isSuccessful()) {
+                    Hasura.setSession(response.body());
+                    startActivity(new Intent(RegisterForm.this, AddExpense.class));
+                } else {
+                    try {
+                        MessageResponse messageResponse = new Gson().fromJson(response.errorBody().string(), MessageResponse.class);
+                        Toast.makeText(RegisterForm.this, messageResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                hideProgressIndicator();
+                Toast.makeText(RegisterForm.this, "Something went wrong, please ensure that you have a working internet connection", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }
