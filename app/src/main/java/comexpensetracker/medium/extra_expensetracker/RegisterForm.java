@@ -32,6 +32,7 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Hasura.initialise(this);
         setContentView(R.layout.activity_register_form);
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
