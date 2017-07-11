@@ -5,8 +5,8 @@ package comexpensetracker.medium.extra_expensetracker;
  */
 
 public class Endpoint {
-    public static final String AUTH_URL = "http://auth.expensetrackerhasura.hasura.me/";
-    public static final String DB_URL = "http://data.expensetrackerhasura.hasura.me/";
+    public static final String AUTH_URL = "http://auth.extraexpensetracker.hasura.me/";
+    public static final String DB_URL = "http://data.extraexpensetracker.hasura.me/";
     public static final String VERSION = "v1";
 
     public static final String LOGIN = "login";

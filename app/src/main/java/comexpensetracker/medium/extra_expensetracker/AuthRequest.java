@@ -14,9 +14,17 @@ public class AuthRequest {
     @SerializedName("password")
     String password;
 
-    public AuthRequest(String username, String password) {
+    @SerializedName("email")
+    String email;
+
+    @SerializedName("mobile")
+    String mobile;
+
+    public AuthRequest(String username, String password, String email, String mobile) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.mobile = mobile;
     }
 
 }

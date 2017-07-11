@@ -1,5 +1,6 @@
 package comexpensetracker.medium.extra_expensetracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -13,12 +14,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.util.regex.Pattern;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +26,11 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
     // --Commented out by Inspection (4/7/17 5:42 PM):private Toolbar toolbar;
     private EditText inputName, inputEmail, inputMobileNo, inputPassword, inputConfirmPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutMobileNo, inputLayoutPassword, inputLayoutConfirmPassword;
+
+    public static void startActivity(Activity startingActivity) {
+        startingActivity.startActivity(new Intent(startingActivity, RegisterForm.class));
+        startingActivity.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +225,7 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
 
     private void handleRegistration() {
         showProgressIndicator();
-        Hasura.auth.register(new AuthRequest(inputName.getText().toString(), inputPassword.getText().toString())).enqueue(new Callback<AuthResponse>() {
+        Hasura.auth.register(new AuthRequest(inputName.getText().toString(), inputPassword.getText().toString(), inputEmail.getText().toString(), inputMobileNo.getText().toString())).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 hideProgressIndicator();
