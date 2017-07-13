@@ -26,5 +26,9 @@ public class AuthRequest {
         this.email = email;
         this.mobile = mobile;
     }
+    public AuthRequest(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
 }

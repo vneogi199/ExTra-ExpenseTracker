@@ -49,7 +49,7 @@
     <string name="register_title">Welcome to ExTra - Expense Tracker</string>
     <string name="register_header">Register</string>
     <string name="register_sub_header">Enter your details</string>
-    <string name="hint_name">Name</string>
+    <string name="hint_name">Username</string>
     <string name="hint_email">Email</string>
     <string name="hint_mobile_no">Mob Number</string>
     <string name="hint_password">Password</string>
@@ -63,4 +63,7 @@
 
     <string name="button_label_on">\u2713 on</string>
     <string name="button_label_off">off</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="already_have_an_account">Already have an account?</string>
 </resources>

@@ -62,26 +62,18 @@
             android:textSize="18sp" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_email"
+            android:id="@+id/input_layout_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
             <EditText
-                android:id="@+id/input_email"
+                android:id="@+id/input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
+                android:hint="@string/hint_name"
+                android:inputType="text"
                 android:textColorLink="@color/colorPrimary" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_mobile_no"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="">
-
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -98,13 +90,6 @@
                 android:textColorLink="@color/colorPrimary" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.design.widget.TextInputLayout>
-
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/RelativeLayout01"
             android:layout_width="fill_parent"
@@ -115,18 +100,19 @@
                 android:text="@string/forgot_password"
                 android:layout_marginTop="10dp"
                 android:textSize="15sp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_alignParentEnd="true"
                 android:clickable="true"/>
 
             <Button
-                android:id="@+id/btn_signup"
+                android:id="@+id/btn_login"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="40dp"
                 android:background="@color/colorPrimary"
-                android:text="@string/btn_sign_up"
+                android:text="@string/login"
                 android:textAlignment="center"
                 android:textColor="@android:color/white" />
 

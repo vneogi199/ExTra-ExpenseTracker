@@ -127,6 +127,17 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
+            <TextView
+                android:id="@+id/loginText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/already_have_an_account"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:onClick="loginActivityOpen"
+                android:layout_marginTop="15dp" />
+
             <Button
                 android:id="@+id/btn_signup"
                 style="@style/Widget.AppCompat.Button"

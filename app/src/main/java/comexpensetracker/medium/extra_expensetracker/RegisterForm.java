@@ -31,7 +31,6 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
         startingActivity.startActivity(new Intent(startingActivity, RegisterForm.class));
         startingActivity.finish();
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +186,12 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
+
+    public void loginActivityOpen(View view) {
+        Intent myIntent = new Intent(RegisterForm.this, LoginForm.class);
+        startActivity(myIntent);
+    }
+
 
     private class MyTextWatcher implements TextWatcher {
 
