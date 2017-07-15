@@ -12,7 +12,7 @@ import android.util.Log
 import android.widget.*
 import java.util.*
 
-class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
+class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, BaseActivity() {
 
     var day : Int = 0
     var month : Int = 0

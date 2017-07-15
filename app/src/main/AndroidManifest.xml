@@ -3,6 +3,7 @@
     package="comexpensetracker.medium.extra_expensetracker">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,9 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".AddExpense"
-            android:windowSoftInputMode="adjustPan"
-            >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".IntroSlider" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>
@@ -23,8 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterForm"/>
-        <activity android:name=".LoginForm"/>
+        <activity android:name=".RegisterForm" />
+        <activity android:name=".LoginForm" />
+        <activity android:name=".ExpenseMainActivity" />
     </application>
 
 </manifest>

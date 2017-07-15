@@ -3,6 +3,8 @@ package comexpensetracker.medium.extra_expensetracker;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,17 +20,36 @@ public class Hasura {
     static String SESSIONID = "sessionId";
 
     public static HasuraAuthInterface auth;
+    public static HasuraDbInterface db;
 
     private static SharedPreferences sharedPreferences;
 
     public static void initialise(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new HasuraTokenInterceptor())
+                .addInterceptor(logging)
+                .build();
+
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Endpoint.AUTH_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         auth = retrofit.create(HasuraAuthInterface.class);
+
+        final Retrofit retrofitDB = new Retrofit.Builder()
+                .baseUrl(Endpoint.DB_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        db = retrofitDB.create(HasuraDbInterface.class);
+
     }
 
     public static void setSession(int userId, String sessionId) {
