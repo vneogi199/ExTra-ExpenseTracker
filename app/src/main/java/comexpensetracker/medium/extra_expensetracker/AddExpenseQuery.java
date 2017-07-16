@@ -2,7 +2,6 @@ package comexpensetracker.medium.extra_expensetracker;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +17,10 @@ public class AddExpenseQuery {
     @SerializedName("args")
     Args args;
 
-    public AddExpenseQuery(String exp_name, Integer userId, Integer exp_amt, Timestamp exp_created, String exp_note, String exp_tag, Integer exp_category) {
+    public AddExpenseQuery(String exp_name, Integer userId) {
         args = new Args();
         args.objects = new ArrayList<>();
-        AddexpenseRecord record = new AddexpenseRecord(exp_name, userId, exp_amt, exp_created, exp_note, exp_tag, exp_category);
+        AddexpenseRecord record = new AddexpenseRecord(exp_name, userId, 50);
         args.objects.add(record);
     }
 

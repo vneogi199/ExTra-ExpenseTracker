@@ -34,7 +34,7 @@ public class AddexpenseRecord {
     @SerializedName("exp_category")
     Integer exp_category;
 
-    public AddexpenseRecord(String exp_name, Integer user_id, Integer exp_amt, Timestamp exp_created, String exp_note, String exp_tag, Integer exp_category) {
+    public AddexpenseRecord(String exp_name, Integer user_id, Integer exp_amt) {
         this.exp_name = exp_name;
         this.user_id = user_id;
         this.exp_amt = exp_amt;

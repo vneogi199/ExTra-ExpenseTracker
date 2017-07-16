@@ -37,7 +37,7 @@ public class ExpenseMainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        //recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new AddExpenseRecyclerViewAdapter(new AddExpenseRecyclerViewAdapter.Interactor() {
@@ -89,8 +89,7 @@ public class ExpenseMainActivity extends BaseActivity {
 
     private void toggleExpense(final int recyclerViewPostion, final AddexpenseRecord record) {
         showProgressIndicator();
-        record.setCompleted(!record.getCompleted());
-        UpdateExpenseQuery query = new UpdateExpenseQuery(record.getExpId(), Hasura.getUserId(), record.getExpName(), record.getExpAmt(), record.getExpCreated(), record.exp_note(), record.exp_tag(), record.exp_category());
+        UpdateExpenseQuery query = new UpdateExpenseQuery(record.getExpId(), Hasura.getUserId(), record.getExpName(), record.getExpAmt(), record.getExpCreated(), record.getExpNote(), record.getExpTag(), record.getExpCategory());
         Hasura.db.updateExpense(query).enqueue(new Callback<AddExpenseReturingResponse>() {
             @Override
             public void onResponse(Call<AddExpenseReturingResponse> call, Response<AddExpenseReturingResponse> response) {
@@ -139,7 +138,7 @@ public class ExpenseMainActivity extends BaseActivity {
             public void onResponse(Call<AddExpenseReturingResponse> call, Response<AddExpenseReturingResponse> response) {
                 hideProgressIndicator();
                 if (response.isSuccessful()) {
-                    AddexpenseRecord record = new AddexpenseRecord(description,Hasura.getUserId(),false);
+                    AddexpenseRecord record = new AddexpenseRecord(description,Hasura.getUserId(), 500);
                     record.setExpId(response.body().getAddexpenseRecords().get(0).getExpId());
                     adapter.addData(record);
                 } else {
@@ -150,17 +149,11 @@ public class ExpenseMainActivity extends BaseActivity {
             @Override
             public void onFailure(Call<AddExpenseReturingResponse> call, Throwable t) {
                 hideProgressIndicator();
-                showErrorAlert("PLease ensure that you have a working internet connection",null);
+                showErrorAlert("Please ensure that you have a working internet connection",null);
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

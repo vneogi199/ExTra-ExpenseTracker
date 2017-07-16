@@ -30,7 +30,7 @@ public class AddExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseV
 
     @Override
     public ExpenseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_todo,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_add_expense,parent,false);
         return new ExpenseViewHolder(view);
     }
 
@@ -38,13 +38,6 @@ public class AddExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseV
     public void onBindViewHolder(ExpenseViewHolder holder, final int position) {
         final AddexpenseRecord addexpenseRecord = data.get(position);
         holder.description.setText(addexpenseRecord.getExpName());
-        holder.checkbox.setChecked(addexpenseRecord.getCompleted());
-
-        if(addexpenseRecord.getCompleted()){
-            holder.description.setPaintFlags(holder.description.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        }else{
-            holder.description.setPaintFlags(holder.description.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

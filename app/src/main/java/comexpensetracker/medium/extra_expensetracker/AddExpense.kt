@@ -6,13 +6,14 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.text.format.DateFormat
 import android.util.Log
 import android.widget.*
 import java.util.*
 
-class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, BaseActivity() {
+class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     var day : Int = 0
     var month : Int = 0
@@ -135,8 +136,9 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Ba
 
     override fun onTimeSet(view: TimePicker?, hourOfDaySelected: Int, minuteSelected: Int) {
         hourFinal = hourOfDaySelected
-        minuteFinal=minuteSelected
+        minuteFinal = minuteSelected
         Log.d("TAG", yearFinal.toString() + "\n" + monthFinal.toString() +  "\n" + dayFinal.toString() +  "\n" + hourFinal.toString() +  "\n" + minuteFinal.toString())
+        expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(yearFinal.toString() + " " + monthFinal.toString() +  " " + dayFinal.toString() +  " " + hourFinal.toString() +  " " + minuteFinal.toString())
     }
 
     fun toggleTickmark(tick : View){
@@ -144,5 +146,11 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Ba
                 tick.visibility=View.VISIBLE
             else if(tick.visibility==View.VISIBLE)
                 tick.visibility=View.GONE
+    }
+
+    fun insertExpense(v : View){
+        var expenseNameText : EditText = findViewById(R.id.expenseNameText) as EditText
+        AddExpenseQuery(expenseNameText.toString(), 1)
+        Toast.makeText(this, "insertExpense called", Toast.LENGTH_LONG).show()
     }
 }

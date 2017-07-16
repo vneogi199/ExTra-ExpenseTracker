@@ -14,11 +14,9 @@ public class ExpenseViewHolder extends RecyclerView.ViewHolder {
     CheckBox checkbox;
     TextView description;
 
-    public ToDoViewHolder(View itemView) {
+    public ExpenseViewHolder(View itemView) {
         super(itemView);
-
-        description = (TextView) itemView.findViewById(R.id.description);
-        checkbox = (CheckBox) itemView.findViewById(R.id.checkbox);
+//        description = (TextView) itemView.findViewById(R.id.description);
+//        checkbox = (CheckBox) itemView.findViewById(R.id.checkbox);
     }
-
 }
