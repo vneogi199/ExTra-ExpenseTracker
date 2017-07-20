@@ -6,14 +6,28 @@ import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.view.View
 import android.text.format.DateFormat
 import android.util.Log
 import android.widget.*
+import comexpensetracker.medium.extra_expensetracker.Hasura.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
+import java.io.IOException
+import com.google.gson.Gson
+import okhttp3.ResponseBody
 
-class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
+
+
+
+class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
+
+    internal lateinit var adapter: AddExpenseRecyclerViewAdapter
+    internal var recyclerView: RecyclerView? = null
 
     var day : Int = 0
     var month : Int = 0
@@ -121,6 +135,37 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     }
 
+    private fun handleError(error: ResponseBody) {
+        try {
+            val messageResponse = Gson().fromJson(error.string(), MessageResponse::class.java)
+            showErrorAlert(messageResponse.getMessage(), null)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun addExpense(description: String) {
+        showProgressIndicator()
+        db.addExpense(AddExpenseQuery(description, getUserId())).enqueue(object : Callback<AddExpenseReturingResponse> {
+            override fun onResponse(call: Call<AddExpenseReturingResponse>, response: Response<AddExpenseReturingResponse>) {
+                hideProgressIndicator()
+                if (response.isSuccessful) {
+                    val record = AddexpenseRecord(description, getUserId(), 500)
+                    record.expId = response.body().getAddexpenseRecords()[0].expId
+                    adapter.addData(record)
+                } else {
+                    handleError(response.errorBody())
+                }
+            }
+
+            override fun onFailure(call: Call<AddExpenseReturingResponse>, t: Throwable) {
+                hideProgressIndicator()
+                showErrorAlert("Please ensure that you have a working internet connection", null)
+            }
+        })
+    }
+
     override fun onDateSet(view: DatePicker?, yearSelected: Int, monthSelected: Int, dayOfMonthSelected: Int) {
         yearFinal = yearSelected
         monthFinal = monthSelected + 1
@@ -150,7 +195,7 @@ class AddExpense : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     fun insertExpense(v : View){
         var expenseNameText : EditText = findViewById(R.id.expenseNameText) as EditText
-        AddExpenseQuery(expenseNameText.toString(), 1)
+        addExpense(expenseNameText.getText().toString())
         Toast.makeText(this, "insertExpense called", Toast.LENGTH_LONG).show()
     }
 }
