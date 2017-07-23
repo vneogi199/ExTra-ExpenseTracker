@@ -7,19 +7,19 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.view.View
 import android.text.format.DateFormat
 import android.util.Log
+import android.view.View
 import android.widget.*
+import io.hasura.sdk.Callback
 import io.hasura.sdk.Hasura
 import io.hasura.sdk.HasuraUser
 import io.hasura.sdk.ProjectConfig
-import io.hasura.sdk.exception.HasuraInitException
-import java.util.*
-import org.json.JSONException
 import io.hasura.sdk.exception.HasuraException
+import io.hasura.sdk.exception.HasuraInitException
+import org.json.JSONException
 import org.json.JSONObject
-
+import java.util.*
 
 
 class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
@@ -180,51 +180,25 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     fun insertExpense(v : View){
         var expenseNameText : EditText = findViewById(R.id.expenseNameText) as EditText
         try {
-            val jsonObject = JSONObject("  {\"type\":\"insert\"," +
-                    " \"args\":{" +
-                    "\"expense\":\"todo\", \"columns\":[\"*\"]" +
-                    "}" +
-                    "}")
+            var jsonQuery = "{\"type\":\"insert\",\"args\":{\"table\":\"expense\",\"objects\":[ {\"user_id\":\"1\", \"exp_name\":\"News\", \"exp_amt\":\"100\", \"exp_created\":\"2017-06-24T18:50:24.029984+00:00\",\"exp_category\":\"2\"}]}}"
+            val jsonObject = JSONObject(jsonQuery)
 
             client.useDataService()
                     .setRequestBody(jsonObject)
-                    .expectResponseTypeArrayOf(TodoRecord::class.java)
-                    .enqueue(object : Callback<List<TodoRecord>, HasuraException>() {
-                        fun onSuccess(response: List<TodoRecord>) {
-
-                            for (record in response) {
-                                Log.i("ResponseRecord", record.toString())
-                            }
+                    .expectResponseType(InsertExpenseResult::class.java)
+                    .enqueue(object : Callback<InsertExpenseResult, HasuraException> {
+                        override fun onSuccess(p0: InsertExpenseResult?) {
+                            Toast.makeText(applicationContext, "Expense Recorded", Toast.LENGTH_LONG).show()
                             hideProgressIndicator()
-                            adapter.setData(response)
                         }
-
-                        fun onFailure(e: HasuraException) {
+                        override fun onFailure(e: HasuraException) {
                             hideProgressIndicator()
-                            handleError(e)
+                            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG).show()
                         }
                     })
 
         } catch (e: JSONException) {
-
+            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG).show()
         }
-
-
-
-        client.useDataService()
-                .setRequestBody(JsonObject)
-                .expectResponseType(MyResponse.class)
-                        .enqueue(new Callback<MyResponse>, HasuraException>() {
-                            @Override
-                            public void onSuccess(MyResponse response) {
-                                //Handle response
-                            }
-
-                            @Override
-                            public void onFailure(HasuraException e) {
-                                //Handle error
-                            }
-                        });
-        Toast.makeText(this, "", Toast.LENGTH_LONG).show()
     }
 }
