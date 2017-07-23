@@ -4,30 +4,25 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.view.View
 import android.text.format.DateFormat
 import android.util.Log
 import android.widget.*
-import comexpensetracker.medium.extra_expensetracker.Hasura.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.hasura.sdk.Hasura
+import io.hasura.sdk.HasuraUser
+import io.hasura.sdk.ProjectConfig
+import io.hasura.sdk.exception.HasuraInitException
 import java.util.*
-import java.io.IOException
-import com.google.gson.Gson
-import okhttp3.ResponseBody
-
+import org.json.JSONException
+import io.hasura.sdk.exception.HasuraException
+import org.json.JSONObject
 
 
 
 class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
-
-    internal lateinit var adapter: AddExpenseRecyclerViewAdapter
-    internal var recyclerView: RecyclerView? = null
 
     var day : Int = 0
     var month : Int = 0
@@ -52,10 +47,30 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     var other_status = 0
 
     var expenseTimestampText : EditText ?= null
+    val client = Hasura.getClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_expense)
+
+        try {
+            Hasura.setProjectConfig(ProjectConfig.Builder()
+                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .build())
+                    .initialise(this)
+        } catch (e: HasuraInitException) {
+            e.printStackTrace()
+        }
+
+        var user : HasuraUser = client.user
+        if (user.isLoggedIn()) {
+
+        } else {
+            Toast.makeText(this@AddExpense, "Please login", Toast.LENGTH_LONG).show()
+            var intent : Intent = Intent(this@AddExpense, LoginForm::class.java)
+            startActivity(intent)
+        }
+
 
         expenseTimestampText = findViewById(R.id.expenseTimestampText) as EditText
         (expenseTimestampText as EditText).setOnClickListener{
@@ -73,97 +88,66 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         val billsLayout = findViewById(R.id.BillsLayout) as LinearLayout
         val billsTick = findViewById(R.id.TickIconBills) as ImageView
 
-        billsLayout.setOnClickListener(View.OnClickListener {
+        billsLayout.setOnClickListener({
             toggleTickmark(billsTick)
         })
 
         val groceriesLayout = findViewById(R.id.GroceriesLayout) as LinearLayout
         val groceriesTick = findViewById(R.id.TickIconGroceries) as ImageView
 
-        groceriesLayout.setOnClickListener(View.OnClickListener {
+        groceriesLayout.setOnClickListener({
             toggleTickmark(groceriesTick)
         })
 
         val entertainmentLayout = findViewById(R.id.EntertainmentLayout) as LinearLayout
         val entertainmentTick = findViewById(R.id.TickIconEntertainment) as ImageView
 
-        entertainmentLayout.setOnClickListener(View.OnClickListener {
+        entertainmentLayout.setOnClickListener({
             toggleTickmark(entertainmentTick)
         })
 
         val fuelLayout = findViewById(R.id.FuelLayout) as LinearLayout
         val fuelTick = findViewById(R.id.TickIconFuel) as ImageView
 
-        fuelLayout.setOnClickListener(View.OnClickListener {
+        fuelLayout.setOnClickListener({
             toggleTickmark(fuelTick)
         })
 
         val foodLayout = findViewById(R.id.FoodLayout) as LinearLayout
         val foodTick = findViewById(R.id.TickIconFood) as ImageView
 
-        foodLayout.setOnClickListener(View.OnClickListener {
+        foodLayout.setOnClickListener({
             toggleTickmark(foodTick)
         })
 
         val healthLayout = findViewById(R.id.HealthLayout) as LinearLayout
         val healthTick = findViewById(R.id.TickIconHealth) as ImageView
 
-        healthLayout.setOnClickListener(View.OnClickListener {
+        healthLayout.setOnClickListener({
             toggleTickmark(healthTick)
         })
 
         val travelLayout = findViewById(R.id.TravelLayout) as LinearLayout
         val travelTick = findViewById(R.id.TickIconTravel) as ImageView
 
-        travelLayout.setOnClickListener(View.OnClickListener {
+        travelLayout.setOnClickListener({
             toggleTickmark(travelTick)
         })
 
         val shoppingLayout = findViewById(R.id.ShoppingLayout) as LinearLayout
         val shoppingTick = findViewById(R.id.TickIconShopping) as ImageView
 
-        shoppingLayout.setOnClickListener(View.OnClickListener {
+        shoppingLayout.setOnClickListener({
             toggleTickmark(shoppingTick)
         })
 
         val otherLayout = findViewById(R.id.OtherLayout) as LinearLayout
         val otherTick = findViewById(R.id.TickIconOther) as ImageView
 
-        otherLayout.setOnClickListener(View.OnClickListener {
+        otherLayout.setOnClickListener({
             toggleTickmark(otherTick)
         })
 
-    }
-
-    private fun handleError(error: ResponseBody) {
-        try {
-            val messageResponse = Gson().fromJson(error.string(), MessageResponse::class.java)
-            showErrorAlert(messageResponse.getMessage(), null)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-    }
-
-    private fun addExpense(description: String) {
-        showProgressIndicator()
-        db.addExpense(AddExpenseQuery(description, getUserId())).enqueue(object : Callback<AddExpenseReturingResponse> {
-            override fun onResponse(call: Call<AddExpenseReturingResponse>, response: Response<AddExpenseReturingResponse>) {
-                hideProgressIndicator()
-                if (response.isSuccessful) {
-                    val record = AddexpenseRecord(description, getUserId(), 500)
-                    record.expId = response.body().getAddexpenseRecords()[0].expId
-                    adapter.addData(record)
-                } else {
-                    handleError(response.errorBody())
-                }
-            }
-
-            override fun onFailure(call: Call<AddExpenseReturingResponse>, t: Throwable) {
-                hideProgressIndicator()
-                showErrorAlert("Please ensure that you have a working internet connection", null)
-            }
-        })
     }
 
     override fun onDateSet(view: DatePicker?, yearSelected: Int, monthSelected: Int, dayOfMonthSelected: Int) {
@@ -195,7 +179,52 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
 
     fun insertExpense(v : View){
         var expenseNameText : EditText = findViewById(R.id.expenseNameText) as EditText
-        addExpense(expenseNameText.getText().toString())
-        Toast.makeText(this, "insertExpense called", Toast.LENGTH_LONG).show()
+        try {
+            val jsonObject = JSONObject("  {\"type\":\"insert\"," +
+                    " \"args\":{" +
+                    "\"expense\":\"todo\", \"columns\":[\"*\"]" +
+                    "}" +
+                    "}")
+
+            client.useDataService()
+                    .setRequestBody(jsonObject)
+                    .expectResponseTypeArrayOf(TodoRecord::class.java)
+                    .enqueue(object : Callback<List<TodoRecord>, HasuraException>() {
+                        fun onSuccess(response: List<TodoRecord>) {
+
+                            for (record in response) {
+                                Log.i("ResponseRecord", record.toString())
+                            }
+                            hideProgressIndicator()
+                            adapter.setData(response)
+                        }
+
+                        fun onFailure(e: HasuraException) {
+                            hideProgressIndicator()
+                            handleError(e)
+                        }
+                    })
+
+        } catch (e: JSONException) {
+
+        }
+
+
+
+        client.useDataService()
+                .setRequestBody(JsonObject)
+                .expectResponseType(MyResponse.class)
+                        .enqueue(new Callback<MyResponse>, HasuraException>() {
+                            @Override
+                            public void onSuccess(MyResponse response) {
+                                //Handle response
+                            }
+
+                            @Override
+                            public void onFailure(HasuraException e) {
+                                //Handle error
+                            }
+                        });
+        Toast.makeText(this, "", Toast.LENGTH_LONG).show()
     }
 }
