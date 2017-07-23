@@ -18,6 +18,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import io.hasura.sdk.Hasura;
+import io.hasura.sdk.ProjectConfig;
+import io.hasura.sdk.exception.HasuraInitException;
+
 public class WelcomeActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -28,9 +32,21 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            Hasura.setProjectConfig(new ProjectConfig.Builder()
+                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .build())
+                    .initialise(this);
+        } catch (HasuraInitException e) {
+            e.printStackTrace();
+        }
 
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);

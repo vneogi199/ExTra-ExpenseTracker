@@ -1,6 +1,5 @@
 package comexpensetracker.medium.extra_expensetracker;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -13,29 +12,42 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import java.io.IOException;
+
 import java.util.regex.Pattern;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class RegisterForm extends BaseActivity implements View.OnClickListener {
+import io.hasura.sdk.Hasura;
+import io.hasura.sdk.HasuraClient;
+import io.hasura.sdk.HasuraUser;
+import io.hasura.sdk.ProjectConfig;
+import io.hasura.sdk.exception.HasuraException;
+import io.hasura.sdk.exception.HasuraInitException;
+import io.hasura.sdk.responseListener.SignUpResponseListener;
 
-    // --Commented out by Inspection (4/7/17 5:42 PM):private Toolbar toolbar;
+import static io.hasura.sdk.HasuraSessionStore.initialise;
+
+public class RegisterForm extends AppCompatActivity {
+
     private EditText inputName, inputEmail, inputMobileNo, inputPassword, inputConfirmPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutMobileNo, inputLayoutPassword, inputLayoutConfirmPassword;
-
-    public static void startActivity(Activity startingActivity) {
-        startingActivity.startActivity(new Intent(startingActivity, RegisterForm.class));
-        startingActivity.finish();
-    }
+    private Button btnSignUp;
+    HasuraUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Hasura.initialise(this);
         setContentView(R.layout.activity_register_form);
+
+        try {
+            Hasura.setProjectConfig(new ProjectConfig.Builder()
+                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .build())
+                    .initialise(this);
+        } catch (HasuraInitException e) {
+            e.printStackTrace();
+        }
+        HasuraClient client = Hasura.getClient();
+        user = client.getUser();
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
@@ -47,7 +59,7 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
         inputMobileNo = (EditText) findViewById(R.id.input_mobile_no);
         inputPassword = (EditText) findViewById(R.id.input_password);
         inputConfirmPassword = (EditText) findViewById(R.id.input_confirm_password);
-        Button btnSignUp = (Button) findViewById(R.id.btn_signup);
+        btnSignUp = (Button) findViewById(R.id.btn_signup);
 
         inputName.addTextChangedListener(new MyTextWatcher(inputName));
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
@@ -55,18 +67,12 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
         inputConfirmPassword.addTextChangedListener(new MyTextWatcher(inputConfirmPassword));
 
-        btnSignUp.setOnClickListener(this);
-
-        if (Hasura.getUserSessionId() != null) {
-            startActivity(new Intent(RegisterForm.this, AddExpense.class));
-        }
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        submitForm();
-        handleRegistration();
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitForm();
+            }
+        });
     }
 
     /**
@@ -93,7 +99,28 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
             return;
         }
 
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+        user.setUsername(inputName.getText().toString());
+        user.setPassword(inputPassword.getText().toString());
+        user.signUp(new SignUpResponseListener() {
+            @Override
+            public void onSuccessAwaitingVerification(HasuraUser user) {
+                //The user is registered on Hasura, but either his mobile or email needs to be verified.
+                Toast.makeText(getApplicationContext(), "Registered. Please verify your email.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(HasuraUser user) {
+                //Now Hasura.getClient().getCurrentUser() will have this user
+                Toast.makeText(getApplicationContext(), "Thank You! ", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(RegisterForm.this, LoginForm.class);
+                startActivity(myIntent);
+            }
+
+            @Override
+            public void onFailure(HasuraException e) {
+                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean validateName() {
@@ -168,11 +195,15 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
     }
 
     private boolean isValidMobile(String phone) {
-        boolean check = false;
-        if (!Pattern.matches("[a-zA-Z]+", phone)) {
-            check = phone.length() == 10;
+        boolean check=false;
+        if(!Pattern.matches("[a-zA-Z]+", phone)) {
+            if(phone.length() != 10) {
+                check = false;
+            } else {
+                check = true;
+            }
         } else {
-            check = false;
+            check=false;
         }
         return check;
     }
@@ -187,15 +218,9 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public void loginActivityOpen(View view) {
-        Intent myIntent = new Intent(RegisterForm.this, LoginForm.class);
-        startActivity(myIntent);
-    }
-
-
     private class MyTextWatcher implements TextWatcher {
 
-        private final View view;
+        private View view;
 
         private MyTextWatcher(View view) {
             this.view = view;
@@ -226,33 +251,6 @@ public class RegisterForm extends BaseActivity implements View.OnClickListener {
                     break;
             }
         }
-    }
-
-    private void handleRegistration() {
-        showProgressIndicator();
-        Hasura.auth.register(new AuthRequest(inputName.getText().toString(), inputPassword.getText().toString(), inputEmail.getText().toString(), inputMobileNo.getText().toString())).enqueue(new Callback<AuthResponse>() {
-            @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                hideProgressIndicator();
-                if (response.isSuccessful()) {
-                    Hasura.setSession(response.body());
-                    startActivity(new Intent(RegisterForm.this, AddExpense.class));
-                } else {
-                    try {
-                        MessageResponse messageResponse = new Gson().fromJson(response.errorBody().string(), MessageResponse.class);
-                        Toast.makeText(RegisterForm.this, messageResponse.getMessage(), Toast.LENGTH_LONG).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
-                hideProgressIndicator();
-                Toast.makeText(RegisterForm.this, "Something went wrong, please ensure that you have a working internet connection", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 }
