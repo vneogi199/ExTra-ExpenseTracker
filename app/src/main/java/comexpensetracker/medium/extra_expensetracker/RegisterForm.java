@@ -218,6 +218,11 @@ public class RegisterForm extends AppCompatActivity {
         }
     }
 
+    public void loginActivityOpen(View view) {
+        Intent i = new Intent(RegisterForm.this, LoginForm.class);
+        startActivity(i);
+    }
+
     private class MyTextWatcher implements TextWatcher {
 
         private View view;
