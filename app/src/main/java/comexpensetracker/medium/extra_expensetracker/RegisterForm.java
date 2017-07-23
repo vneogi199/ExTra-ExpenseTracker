@@ -33,6 +33,7 @@ public class RegisterForm extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutMobileNo, inputLayoutPassword, inputLayoutConfirmPassword;
     private Button btnSignUp;
     HasuraUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +102,9 @@ public class RegisterForm extends AppCompatActivity {
 
         user.setUsername(inputName.getText().toString());
         user.setPassword(inputPassword.getText().toString());
+        user.setEmail(inputEmail.getText().toString());
+        user.setMobile(inputMobileNo.getText().toString());
+
         user.signUp(new SignUpResponseListener() {
             @Override
             public void onSuccessAwaitingVerification(HasuraUser user) {

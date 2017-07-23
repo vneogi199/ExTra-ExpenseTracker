@@ -21,7 +21,7 @@ import io.hasura.sdk.responseListener.AuthResponseListener
  * Created by vinit on 13/7/17.
  */
 class LoginForm : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         try {
@@ -44,8 +44,8 @@ class LoginForm : BaseActivity() {
             user.login(object : AuthResponseListener {
                 override fun onSuccess(p0: String?) {
                     Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
-                    val myIntent = Intent(this@LoginForm, AddExpense::class.java)
-                    startActivity(myIntent)
+                    //val myIntent = Intent(this@LoginForm, AddExpense::class.java)
+                    //startActivity(myIntent)
                 }
 
                 override fun onFailure(e: HasuraException) {
