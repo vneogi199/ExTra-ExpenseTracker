@@ -4,19 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import io.hasura.sdk.Callback;
 import io.hasura.sdk.Hasura;
 import io.hasura.sdk.HasuraClient;
 import io.hasura.sdk.HasuraUser;
@@ -25,7 +30,6 @@ import io.hasura.sdk.exception.HasuraException;
 import io.hasura.sdk.exception.HasuraInitException;
 import io.hasura.sdk.responseListener.SignUpResponseListener;
 
-import static io.hasura.sdk.HasuraSessionStore.initialise;
 
 public class RegisterForm extends AppCompatActivity {
 
@@ -33,6 +37,7 @@ public class RegisterForm extends AppCompatActivity {
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutMobileNo, inputLayoutPassword, inputLayoutConfirmPassword;
     private Button btnSignUp;
     HasuraUser user;
+    HasuraClient client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +45,14 @@ public class RegisterForm extends AppCompatActivity {
 
         try {
             Hasura.setProjectConfig(new ProjectConfig.Builder()
-                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    //.enableOverHttp()  //enable this
                     .build())
                     .initialise(this);
         } catch (HasuraInitException e) {
             e.printStackTrace();
         }
-        HasuraClient client = Hasura.getClient();
+        client = Hasura.getClient();
         user = client.getUser();
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
@@ -98,9 +104,10 @@ public class RegisterForm extends AppCompatActivity {
         if (!validateConfirmPassword()) {
             return;
         }
-
-        user.setUsername(inputName.getText().toString());
-        user.setPassword(inputPassword.getText().toString());
+        final String username = inputName.getText().toString();
+        String password = inputPassword.getText().toString();
+        user.setUsername(username);
+        user.setPassword(password);
         user.signUp(new SignUpResponseListener() {
             @Override
             public void onSuccessAwaitingVerification(HasuraUser user) {
@@ -111,6 +118,48 @@ public class RegisterForm extends AppCompatActivity {
             @Override
             public void onSuccess(HasuraUser user) {
                 //Now Hasura.getClient().getCurrentUser() will have this user
+                try{
+                    //JSON query for inserting user (REFERENCE)
+//                    {
+//                        "type" : "insert",
+//                        "args" : {
+//                            "table" : "user_info",
+//                            "objects": [{"name" : "username"}]
+//                        }
+//                    }
+
+                    JSONObject nameJSON = new JSONObject();
+                    nameJSON.put("name", username);
+
+                    JSONArray colsList = new JSONArray();
+                    colsList.put(nameJSON);
+
+                    JSONObject args = new JSONObject();
+                    args.put("table", "user_info");
+                    args.put("objects", colsList);
+
+                    JSONObject insertUserJSON = new JSONObject();
+                    insertUserJSON.put("type", "insert");
+                    insertUserJSON.put("args", args);
+
+                    client.useDataService()
+                            .setRequestBody(insertUserJSON)
+                            .expectResponseType(RegisterUserResponse.class)
+                            .enqueue(new Callback<RegisterUserResponse, HasuraException>() {
+                                @Override
+                                public void onSuccess(RegisterUserResponse registerUserResponse) {
+                                    Toast.makeText(getApplicationContext(), "User Created ", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(HasuraException e) {
+                                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+                catch (JSONException e){
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
                 Toast.makeText(getApplicationContext(), "Thank You! ", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(RegisterForm.this, LoginForm.class);
                 startActivity(myIntent);

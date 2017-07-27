@@ -26,7 +26,8 @@ class LoginForm : BaseActivity() {
         setContentView(R.layout.activity_login)
         try {
             Hasura.setProjectConfig(ProjectConfig.Builder()
-                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    //.enableOverHttp()
                     .build())
                     .initialise(this)
         } catch (e: HasuraInitException) {
