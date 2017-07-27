@@ -41,7 +41,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         try {
             Hasura.setProjectConfig(new ProjectConfig.Builder()
-                    .setCustomBaseDomain("extraexpensetracker.hasura.me").enableOverHttp()
+                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    //.enableOverHttp()
                     .build())
                     .initialise(this);
         } catch (HasuraInitException e) {
