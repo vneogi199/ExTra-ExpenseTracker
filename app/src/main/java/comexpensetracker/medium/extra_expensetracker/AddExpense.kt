@@ -17,8 +17,11 @@ import io.hasura.sdk.HasuraUser
 import io.hasura.sdk.ProjectConfig
 import io.hasura.sdk.exception.HasuraException
 import io.hasura.sdk.exception.HasuraInitException
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -48,11 +51,16 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
 
     var expenseTimestampText : EditText ?= null
     val client = Hasura.getClient()
+    var user : HasuraUser = Hasura.getClient().user
+
+    var expenseNameText : EditText ?= null
+    var expenseAmtText : EditText ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_expense)
-
+        expenseNameText = findViewById(R.id.expenseNameText) as EditText
+        expenseAmtText = findViewById(R.id.expenseAmtText) as EditText
         try {
             Hasura.setProjectConfig(ProjectConfig.Builder()
                     .setCustomBaseDomain("camaraderie53.hasura-app.io")
@@ -63,7 +71,6 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
             e.printStackTrace()
         }
 
-        var user : HasuraUser = client.user
         if (user.isLoggedIn()) {
 
         } else {
@@ -164,11 +171,23 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         timePickerDialog.show()
     }
 
+    fun prependZero(value : Int): String {
+        if(value.toString().length == 0) return "00"
+        else if (value.toString().length == 1) return "0" +value.toString()
+        else return value.toString()
+    }
     override fun onTimeSet(view: TimePicker?, hourOfDaySelected: Int, minuteSelected: Int) {
         hourFinal = hourOfDaySelected
         minuteFinal = minuteSelected
-        Log.d("TAG", yearFinal.toString() + "\n" + monthFinal.toString() +  "\n" + dayFinal.toString() +  "\n" + hourFinal.toString() +  "\n" + minuteFinal.toString())
-        expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(yearFinal.toString() + " " + monthFinal.toString() +  " " + dayFinal.toString() +  " " + hourFinal.toString() +  " " + minuteFinal.toString())
+
+        val s = prependZero(dayFinal) + "/" + prependZero(monthFinal) + "/" + yearFinal.toString()+ " " +prependZero(hourFinal)+ ":" +prependZero(minuteFinal)
+        val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm")
+        try {
+            val date = simpleDateFormat.parse(s)
+            expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(date.toString())
+        } catch (ex: ParseException) {
+            Toast.makeText(this@AddExpense, ex.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun toggleTickmark(tick : View){
@@ -179,13 +198,30 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     }
 
     fun insertExpense(v : View){
-        var expenseNameText : EditText = findViewById(R.id.expenseNameText) as EditText
         try {
-            var jsonQuery = "{\"type\":\"insert\",\"args\":{\"table\":\"expense\",\"objects\":[ {\"user_id\":\"1\", \"exp_name\":\"News\", \"exp_amt\":\"100\", \"exp_created\":\"2017-06-24T18:50:24.029984+00:00\",\"exp_category\":\"2\"}]}}"
-            val jsonObject = JSONObject(jsonQuery)
+            //var jsonQuery = "{\"type\":\"insert\",\"args\":{\"table\":\"expense\",\"objects\":[ {\"user_id\":\"1\", \"exp_name\":\"News\", \"exp_amt\":\"100\", \"exp_created\":\"2017-06-24T18:50:24.029984+00:00\",\"exp_category\":\"2\"}]}}"
+            //val jsonObject = JSONObject(jsonQuery)
+            val nameJSON = JSONObject()
+            nameJSON.put("user_id", user.id)
+            nameJSON.put("exp_name", expenseNameText?.text.toString())
+            nameJSON.put("exp_amt", expenseAmtText?.text.toString())
+            nameJSON.put("exp_created", expenseTimestampText?.text.toString())
+
+            val colsList = JSONArray()
+            colsList.put(nameJSON)
+
+            val args = JSONObject()
+            args.put("table", "expense")
+            args.put("objects", colsList)
+
+            val addExpenseJSON = JSONObject()
+            addExpenseJSON.put("type", "insert")
+            addExpenseJSON.put("args", args)
+
+
 
             client.useDataService()
-                    .setRequestBody(jsonObject)
+                    .setRequestBody(addExpenseJSON)
                     .expectResponseType(InsertExpenseResult::class.java)
                     .enqueue(object : Callback<InsertExpenseResult, HasuraException> {
                         override fun onSuccess(p0: InsertExpenseResult?) {
