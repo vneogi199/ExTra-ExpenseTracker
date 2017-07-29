@@ -20,6 +20,7 @@ import io.hasura.sdk.exception.HasuraInitException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -170,11 +171,23 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         timePickerDialog.show()
     }
 
+    fun prependZero(value : Int): String {
+        if(value.toString().length == 0) return "00"
+        else if (value.toString().length == 1) return "0" +value.toString()
+        else return value.toString()
+    }
     override fun onTimeSet(view: TimePicker?, hourOfDaySelected: Int, minuteSelected: Int) {
         hourFinal = hourOfDaySelected
         minuteFinal = minuteSelected
-        val startDate = SimpleDateFormat("dd-MM-yyyy'T'HH:mm").parse(dayFinal.toString()+monthFinal.toString()+yearFinal.toString()+hourFinal.toString()+minuteFinal.toString())
-        expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(startDate.toString())
+
+        val s = prependZero(dayFinal) + "/" + prependZero(monthFinal) + "/" + yearFinal.toString()+ " " +prependZero(hourFinal)+ ":" +prependZero(minuteFinal)
+        val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm")
+        try {
+            val date = simpleDateFormat.parse(s)
+            expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(date.toString())
+        } catch (ex: ParseException) {
+            Toast.makeText(this@AddExpense, ex.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun toggleTickmark(tick : View){
