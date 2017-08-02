@@ -7,6 +7,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.View
@@ -39,22 +40,15 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     var hourFinal : Int = 0
     var minuteFinal : Int = 0
 
-    var bills_status = 0
-    var groceries_status = 0
-    var entertainment_status = 0
-    var fuel_status = 0
-    var food_status = 0
-    var health_status = 0
-    var travel_status = 0
-    var shopping_status = 0
-    var other_status = 0
-
     var expenseTimestampText : EditText ?= null
     val client = Hasura.getClient()!!
     var user : HasuraUser = Hasura.getClient().user
 
     var expenseNameText : EditText ?= null
     var expenseAmtText : EditText ?= null
+    var selectedCategory = 0
+    var noteInput : String = ""
+    var tagInput : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,66 +90,200 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         val billsLayout = findViewById(R.id.BillsLayout) as LinearLayout
         val billsTick = findViewById(R.id.TickIconBills) as ImageView
 
-        billsLayout.setOnClickListener({
-            toggleTickmark(billsTick)
-        })
-
         val groceriesLayout = findViewById(R.id.GroceriesLayout) as LinearLayout
         val groceriesTick = findViewById(R.id.TickIconGroceries) as ImageView
-
-        groceriesLayout.setOnClickListener({
-            toggleTickmark(groceriesTick)
-        })
 
         val entertainmentLayout = findViewById(R.id.EntertainmentLayout) as LinearLayout
         val entertainmentTick = findViewById(R.id.TickIconEntertainment) as ImageView
 
-        entertainmentLayout.setOnClickListener({
-            toggleTickmark(entertainmentTick)
-        })
-
         val fuelLayout = findViewById(R.id.FuelLayout) as LinearLayout
         val fuelTick = findViewById(R.id.TickIconFuel) as ImageView
-
-        fuelLayout.setOnClickListener({
-            toggleTickmark(fuelTick)
-        })
 
         val foodLayout = findViewById(R.id.FoodLayout) as LinearLayout
         val foodTick = findViewById(R.id.TickIconFood) as ImageView
 
-        foodLayout.setOnClickListener({
-            toggleTickmark(foodTick)
-        })
-
         val healthLayout = findViewById(R.id.HealthLayout) as LinearLayout
         val healthTick = findViewById(R.id.TickIconHealth) as ImageView
-
-        healthLayout.setOnClickListener({
-            toggleTickmark(healthTick)
-        })
 
         val travelLayout = findViewById(R.id.TravelLayout) as LinearLayout
         val travelTick = findViewById(R.id.TickIconTravel) as ImageView
 
-        travelLayout.setOnClickListener({
-            toggleTickmark(travelTick)
-        })
-
         val shoppingLayout = findViewById(R.id.ShoppingLayout) as LinearLayout
         val shoppingTick = findViewById(R.id.TickIconShopping) as ImageView
-
-        shoppingLayout.setOnClickListener({
-            toggleTickmark(shoppingTick)
-        })
 
         val otherLayout = findViewById(R.id.OtherLayout) as LinearLayout
         val otherTick = findViewById(R.id.TickIconOther) as ImageView
 
-        otherLayout.setOnClickListener({
-            toggleTickmark(otherTick)
+        billsLayout.setOnClickListener({
+            if(billsTick.visibility==View.GONE){
+                billsTick.visibility=View.VISIBLE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 1
+            }
+            else if(billsTick.visibility==View.VISIBLE){
+                billsTick.visibility=View.GONE
+                selectedCategory = 0
+            }
         })
 
+        groceriesLayout.setOnClickListener({
+            if(groceriesTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.VISIBLE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 2
+            }
+            else if(groceriesTick.visibility==View.VISIBLE){
+                groceriesTick.visibility=View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        entertainmentLayout.setOnClickListener({
+            if(entertainmentTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.VISIBLE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 3
+            }
+            else if(entertainmentTick.visibility==View.VISIBLE){
+                entertainmentTick.visibility=View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        fuelLayout.setOnClickListener({
+            if(fuelTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.VISIBLE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory  = 4
+            }
+            else if(fuelTick.visibility==View.VISIBLE){
+                fuelTick.visibility=View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        foodLayout.setOnClickListener({
+            if(foodTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.VISIBLE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 5
+            }
+            else if(foodTick.visibility==View.VISIBLE) {
+                foodTick.visibility = View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        healthLayout.setOnClickListener({
+            if(healthTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.VISIBLE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 6
+            }
+            else if(healthTick.visibility==View.VISIBLE) {
+                healthTick.visibility = View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        travelLayout.setOnClickListener({
+            if(travelTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.VISIBLE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.GONE
+                selectedCategory = 7
+            }
+            else if(travelTick.visibility==View.VISIBLE) {
+                travelTick.visibility = View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        shoppingLayout.setOnClickListener({
+            if(shoppingTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.VISIBLE
+                otherTick.visibility=View.GONE
+                selectedCategory = 8
+            }
+            else if(shoppingTick.visibility==View.VISIBLE) {
+                shoppingTick.visibility = View.GONE
+                selectedCategory = 0
+            }
+        })
+
+        otherLayout.setOnClickListener({
+            if(otherTick.visibility==View.GONE){
+                billsTick.visibility=View.GONE
+                groceriesTick.visibility=View.GONE
+                entertainmentTick.visibility=View.GONE
+                fuelTick.visibility=View.GONE
+                foodTick.visibility=View.GONE
+                healthTick.visibility=View.GONE
+                travelTick.visibility=View.GONE
+                shoppingTick.visibility=View.GONE
+                otherTick.visibility=View.VISIBLE
+                selectedCategory = 9
+            }
+            else if(otherTick.visibility==View.VISIBLE) {
+                otherTick.visibility = View.GONE
+                selectedCategory = 0
+            }
+        })
     }
 
     override fun onDateSet(view: DatePicker?, yearSelected: Int, monthSelected: Int, dayOfMonthSelected: Int) {
@@ -190,14 +318,21 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         }
     }
 
-    fun toggleTickmark(tick : View){
-            if(tick.visibility==View.GONE)
-                tick.visibility=View.VISIBLE
-            else if(tick.visibility==View.VISIBLE)
-                tick.visibility=View.GONE
-    }
-
     fun insertExpense(v : View){
+        var expenseNotesText: EditText = findViewById(R.id.expenseNotesText) as EditText
+        if(expenseNotesText.text.toString().isEmpty()) {
+            noteInput = ""
+        }
+        else{
+            noteInput = expenseNotesText.text.toString()
+        }
+        var expenseTagText : EditText = findViewById(R.id.expenseTagsText) as EditText
+        if(expenseTagText.text.toString().isEmpty()) {
+            tagInput = ""
+        }
+        else{
+            tagInput = expenseTagText.text.toString()
+        }
         try {
             //var jsonQuery = "{\"type\":\"insert\",\"args\":{\"table\":\"expense\",\"objects\":[ {\"user_id\":\"1\", \"exp_name\":\"News\", \"exp_amt\":\"100\", \"exp_created\":\"2017-06-24T18:50:24.029984+00:00\",\"exp_category\":\"2\"}]}}"
             //val jsonObject = JSONObject(jsonQuery)
@@ -206,6 +341,9 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
             nameJSON.put("exp_name", expenseNameText?.text.toString())
             nameJSON.put("exp_amt", expenseAmtText?.text.toString())
             nameJSON.put("exp_created", expenseTimestampText?.text.toString())
+            nameJSON.put("exp_category", selectedCategory)
+            nameJSON.put("exp_note", noteInput)
+            nameJSON.put("exp_tag", tagInput)
 
             val colsList = JSONArray()
             colsList.put(nameJSON)

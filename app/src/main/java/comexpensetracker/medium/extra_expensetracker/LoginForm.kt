@@ -71,13 +71,10 @@ class LoginForm : BaseActivity() {
         var user: HasuraUser = client.user
         val btnLogin: Button = findViewById(R.id.btn_login) as Button
         btnLogin.setOnClickListener({
-            if (!validateUsername()) {
-                return@setOnClickListener
-            }
+            if (!validateUsername()) return@setOnClickListener
 
-            if (!validatePassword()) {
-                return@setOnClickListener
-            }
+            if (!validatePassword()) return@setOnClickListener
+
             input_username = findViewById(R.id.input_username) as EditText
             inputPassword = findViewById(R.id.input_password) as EditText
             user.username = input_username!!.text.toString()

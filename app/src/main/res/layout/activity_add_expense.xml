@@ -79,7 +79,7 @@
         android:layout_alignTop="@+id/expenseCategorySelectionIcon"
         android:layout_marginTop="7dp"
         android:layout_marginLeft="90dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:width="250dp"
         android:hint="@string/category" />
     
