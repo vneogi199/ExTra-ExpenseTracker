@@ -37,10 +37,6 @@ class ExpenseRecord(username: String, userId: Int?, exp_amt: Int, exp_created: T
         this.exp_name = exp_name
         this.user_id = user_id
         this.exp_amt = exp_amt
-        this.exp_created = this@ExpenseRecord.exp_created
-        this.exp_note = this@ExpenseRecord.exp_note
-        this.exp_tag = this@ExpenseRecord.exp_tag
-        this.exp_category = this@ExpenseRecord.exp_category
     }
 
     fun getExpId(): Int? {

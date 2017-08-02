@@ -18,20 +18,45 @@ import io.hasura.sdk.ProjectConfig
 import io.hasura.sdk.exception.HasuraInitException
 import io.hasura.sdk.responseListener.AuthResponseListener
 
-
-
-
-
 /**
  * Created by vinit on 13/7/17.
  */
 class LoginForm : BaseActivity() {
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        var input_username: EditText? = null
+        var inputPassword: EditText? = null
+        var inputLayoutUsername: TextInputLayout? = null
+        var inputLayoutPassword: TextInputLayout? = null
+
+
+        fun validateUsername(): Boolean {
+            if (input_username.toString().trim().isEmpty()) {
+                inputLayoutUsername?.error = getString(R.string.err_msg_name)
+                return false
+            } else {
+                inputLayoutUsername?.isErrorEnabled = false
+            }
+
+            return true
+        }
+
+        fun validatePassword(): Boolean {
+            if (inputPassword?.text.toString().trim().isEmpty()) {
+                inputLayoutPassword?.error = getString(R.string.err_msg_password)
+                return false
+            } else {
+                inputLayoutPassword?.isErrorEnabled = false
+            }
+
+            return true
+        }
         try {
             Hasura.setProjectConfig(ProjectConfig.Builder()
-                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    .setCustomBaseDomain("cobalt21.hasura-app.io")
                     //.enableOverHttp()
                     .build())
                     .initialise(this)
@@ -39,22 +64,29 @@ class LoginForm : BaseActivity() {
             e.printStackTrace()
         }
 
-        var inputLayoutUsername = findViewById(R.id.input_layout_username) as TextInputLayout
-        var inputLayoutPassword = findViewById(R.id.input_layout_password) as TextInputLayout
+        inputLayoutUsername = findViewById(R.id.input_layout_username) as TextInputLayout
+        inputLayoutPassword = findViewById(R.id.input_layout_password) as TextInputLayout
 
         val client = Hasura.getClient()
         var user: HasuraUser = client.user
         val btnLogin: Button = findViewById(R.id.btn_login) as Button
         btnLogin.setOnClickListener({
-            var input_username = findViewById(R.id.input_username) as EditText
-            var inputPassword = findViewById(R.id.input_password) as EditText
-            user.username = input_username.text.toString()
-            user.password = inputPassword.text.toString()
+            if (!validateUsername()) {
+                return@setOnClickListener
+            }
+
+            if (!validatePassword()) {
+                return@setOnClickListener
+            }
+            input_username = findViewById(R.id.input_username) as EditText
+            inputPassword = findViewById(R.id.input_password) as EditText
+            user.username = input_username!!.text.toString()
+            user.password = inputPassword!!.text.toString()
             user.login(object : AuthResponseListener {
                 override fun onSuccess(p0: String?) {
                     Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
-                    //val myIntent = Intent(this@LoginForm, AddExpense::class.java)
-                    //startActivity(myIntent)
+                    val myIntent = Intent(this@LoginForm, AddExpense::class.java)
+                    startActivity(myIntent)
                 }
 
                 override fun onFailure(e: HasuraException) {
@@ -63,46 +95,4 @@ class LoginForm : BaseActivity() {
             })
         })
     }
-
-    fun View.showKeyboard() {
-        this.requestFocus()
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private void submitForm()
-    {
-        if (!validateUsername()) {
-            return
-        }
-
-        if (!validatePassword()) {
-            return
-        }
-    }
-
-    private fun validateUsername(): Boolean {
-        if (input_username.toString().trim().isEmpty()) {
-            input_layout_username.setError(getString(R.string.err_msg_name))
-            showKeyboard(input_username)
-            return false
-        } else {
-            input_layout_username.setErrorEnabled(false)
-        }
-
-        return true
-    }
-
-    private fun validatePassword(): Boolean {
-        if (inputPassword.getText().toString().trim().isEmpty()) {
-            inputLayoutPassword.setError(getString(R.string.err_msg_password))
-            requestFocus(inputPassword)
-            return false
-        } else {
-            inputLayoutPassword.setErrorEnabled(false)
-        }
-
-        return true
-    }
-
 }

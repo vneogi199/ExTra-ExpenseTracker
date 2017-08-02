@@ -50,7 +50,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     var other_status = 0
 
     var expenseTimestampText : EditText ?= null
-    val client = Hasura.getClient()
+    val client = Hasura.getClient()!!
     var user : HasuraUser = Hasura.getClient().user
 
     var expenseNameText : EditText ?= null
@@ -63,7 +63,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         expenseAmtText = findViewById(R.id.expenseAmtText) as EditText
         try {
             Hasura.setProjectConfig(ProjectConfig.Builder()
-                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    .setCustomBaseDomain("cobalt21.hasura-app.io")
                     //.enableOverHttp()
                     .build())
                     .initialise(this)
@@ -71,7 +71,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
             e.printStackTrace()
         }
 
-        if (user.isLoggedIn()) {
+        if (user.isLoggedIn) {
 
         } else {
             Toast.makeText(this@AddExpense, "Please login", Toast.LENGTH_LONG).show()
@@ -230,7 +230,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
                         }
                         override fun onFailure(e: HasuraException) {
                             hideProgressIndicator()
-                            Toast.makeText(applicationContext, e.toString(), Toast.LENGTH_LONG).show()
+                            Toast.makeText(applicationContext, e.toString() + user.id, Toast.LENGTH_LONG).show()
                         }
                     })
 

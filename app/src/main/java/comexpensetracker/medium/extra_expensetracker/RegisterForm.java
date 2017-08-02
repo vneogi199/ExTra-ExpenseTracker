@@ -45,7 +45,7 @@ public class RegisterForm extends AppCompatActivity {
 
         try {
             Hasura.setProjectConfig(new ProjectConfig.Builder()
-                    .setCustomBaseDomain("camaraderie53.hasura-app.io")
+                    .setCustomBaseDomain("cobalt21.hasura-app.io")
                     //.enableOverHttp()  //enable this
                     .build())
                     .initialise(this);

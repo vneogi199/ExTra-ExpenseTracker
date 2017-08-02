@@ -14,7 +14,7 @@ import android.support.v7.app.AlertDialog
  */
 public open class BaseActivity: AppCompatActivity() {
 
-    var pd: ProgressDialog = null!!
+    var pd: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +28,23 @@ public open class BaseActivity: AppCompatActivity() {
         if (listener != null) {
             alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Dismiss", listener)
         } else {
-            alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Dismiss", DialogInterface.OnClickListener { dialog, which -> alertDialog.dismiss() })
+            alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Dismiss", DialogInterface.OnClickListener { _, _ -> alertDialog.dismiss() })
         }
         alertDialog.show()
     }
 
     protected fun showProgressIndicator() {
-        pd.setMessage("Please wait")
-        pd.show()
+        pd?.setMessage("Please wait")
+        pd?.show()
     }
 
     protected fun hideProgressIndicator() {
-        pd.dismiss()
+        pd?.dismiss()
     }
 
     fun handleError(e: HasuraException) {
         if (e.code == HasuraErrorCode.UNAUTHORISED) {
-            showErrorAlert("You login session has expired. Please log in again", DialogInterface.OnClickListener { dialog, which -> completeUserLogout() })
+            showErrorAlert("You login session has expired. Please log in again", DialogInterface.OnClickListener { _, _ -> completeUserLogout() })
         } else
             showErrorAlert(e.message, null)
     }
