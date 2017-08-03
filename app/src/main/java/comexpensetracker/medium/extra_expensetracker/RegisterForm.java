@@ -246,11 +246,7 @@ public class RegisterForm extends AppCompatActivity {
     private boolean isValidMobile(String phone) {
         boolean check=false;
         if(!Pattern.matches("[a-zA-Z]+", phone)) {
-            if(phone.length() != 10) {
-                check = false;
-            } else {
-                check = true;
-            }
+            check = phone.length() == 10;
         } else {
             check=false;
         }

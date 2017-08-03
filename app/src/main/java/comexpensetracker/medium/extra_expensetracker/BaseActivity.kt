@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog
 /**
  * Created by akash on 23/7/17.
  */
-public open class BaseActivity: AppCompatActivity() {
+open class BaseActivity: AppCompatActivity() {
 
     var pd: ProgressDialog? = null
 

@@ -319,6 +319,22 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     }
 
     fun insertExpense(v : View){
+        if(expenseNameText?.text.toString().isEmpty()){
+            Toast.makeText(applicationContext, "Please enter the expense name", Toast.LENGTH_SHORT).show()
+            return@insertExpense
+        }
+        if(expenseAmtText?.text.toString().isEmpty()){
+            Toast.makeText(applicationContext, "Please enter the expense amount", Toast.LENGTH_SHORT).show()
+            return@insertExpense
+        }
+        if(expenseTimestampText?.text.toString().isEmpty()){
+            Toast.makeText(applicationContext, "Please select the expense date and time", Toast.LENGTH_SHORT).show()
+            return@insertExpense
+        }
+        if(selectedCategory==0){
+            Toast.makeText(applicationContext, "Please select the expense category", Toast.LENGTH_SHORT).show()
+            return@insertExpense
+        }
         var expenseNotesText: EditText = findViewById(R.id.expenseNotesText) as EditText
         if(expenseNotesText.text.toString().isEmpty()) {
             noteInput = ""
