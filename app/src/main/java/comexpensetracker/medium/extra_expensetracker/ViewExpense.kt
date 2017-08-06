@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.widget.Toast
 import io.hasura.sdk.Callback
 import io.hasura.sdk.Hasura
 import io.hasura.sdk.HasuraUser
@@ -49,15 +50,18 @@ class ViewExpense : AppCompatActivity() {
     }
 
     private fun fetchExpensesFromDB() {
-        //test for JSONObject
         try {
-            val jsonObject = JSONObject("  {\"type\":\"select\"," +
-                    " \"args\":{" +
-                    "\"table\":\"expense\", \"columns"\: ["id", "title"],
-                    "}" +
-                    "}")
+//            val jsonObject = JSONObject("  {\"type\":\"select\"," +
+//                    " \"args\":{" +
+//                    "\"table\":\"expense\", \"columns"\: ["id", "title"],
+//                    "}" +
+//                    "}")
 
-            var columnsArray = listOf<String>("exp_name", "exp_amt", "exp_created", "exp_category")
+            var columnsArray = JSONArray()
+            columnsArray.put("exp_name")
+            columnsArray.put("exp_amt")
+            columnsArray.put("exp_created")
+            columnsArray.put("exp_category")
 
             var args = JSONObject()
             args.put("table", "expense")
@@ -71,50 +75,28 @@ class ViewExpense : AppCompatActivity() {
             var selectExpenseQuery = JSONObject()
             selectExpenseQuery.put("type", "select")
             selectExpenseQuery.put("args", args)
-
-
-
+            Log.i("ResponseRecord", selectExpenseQuery.toString())
             client.useDataService()
-                    .setRequestBody(jsonObject)
-                    .expectResponseTypeArrayOf(TodoRecord::class.java)
-                    .enqueue(object : Callback<List<TodoRecord>, HasuraException>() {
-                        override fun onSuccess(response: List<TodoRecord>) {
+                    .setRequestBody(selectExpenseQuery)
+                    .expectResponseTypeArrayOf(ExpenseRecord::class.java)
+                    .enqueue(object : Callback<List<ExpenseRecord>, HasuraException> {
+                        override fun onSuccess(response: List<ExpenseRecord>) {
 
                             for (record in response) {
                                 Log.i("ResponseRecord", record.toString())
                             }
-                            hideProgressIndicator()
-                            adapter.setData(response)
+                            //adapter.setData(response)
                         }
 
                         override fun onFailure(e: HasuraException) {
-                            hideProgressIndicator()
-                            handleError(e)
+//                            hideProgressIndicator()
+//                            handleError(e)
+                            Toast.makeText(this@ViewExpense, "Error Occured", Toast.LENGTH_SHORT).show()
                         }
                     })
 
         } catch (e: JSONException) {
 
         }
-
-
-        client.useDataService()
-                .setRequestBody(SelectTodoRequest(user.id))
-                .expectResponseTypeArrayOf(TodoRecord::class.java)
-                .enqueue(object : Callback<List<TodoRecord>, HasuraException>() {
-                    fun onSuccess(response: List<TodoRecord>) {
-
-                        for (record in response) {
-                            Log.i("ResponseRecord", record.toString())
-                        }
-                        hideProgressIndicator()
-                        adapter.setData(response)
-                    }
-
-                    fun onFailure(e: HasuraException) {
-                        hideProgressIndicator()
-                        handleError(e)
-                    }
-                })
     }
 }
