@@ -14,16 +14,17 @@
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AddExpense"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".IntroSlider" />
-        <activity android:name=".RegisterForm"></activity>
+        <activity android:name=".RegisterForm" />
         <activity android:name=".LoginForm" />
-        <activity android:name=".RegisterForm1"></activity>
+        <activity android:name=".ViewExpense"></activity>
     </application>
 
 </manifest>

@@ -41,6 +41,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
     var minuteFinal : Int = 0
 
     var expenseTimestampText : EditText ?= null
+
     val client = Hasura.getClient()!!
     var user : HasuraUser = Hasura.getClient().user
 
