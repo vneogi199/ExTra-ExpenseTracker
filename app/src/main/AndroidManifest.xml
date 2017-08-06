@@ -24,7 +24,8 @@
         <activity android:name=".IntroSlider" />
         <activity android:name=".RegisterForm" />
         <activity android:name=".LoginForm" />
-        <activity android:name=".ViewExpense"></activity>
+        <activity android:name=".ViewExpense">
+        </activity>
     </application>
 
 </manifest>
