@@ -7,7 +7,7 @@ import java.sql.Timestamp
 /**
  * Created by akash on 23/7/17.
  */
-class ExpenseRecord{
+class ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: String, exp_category: Int) {
 
     @SerializedName("exp_name")
     var exp_name: String = ""
@@ -16,12 +16,20 @@ class ExpenseRecord{
     var exp_amt: Int? = null
 
     @SerializedName("exp_created")
-    var exp_created: Timestamp? = null
+    var exp_created: String? = null
 
     @SerializedName("exp_category")
     var exp_category: Int? = null
 
-    fun ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: Timestamp, exp_category: Int) {
+    init {
+        this.exp_name = exp_name
+        this.exp_amt = exp_amt
+        this.exp_created = exp_created
+        this.exp_category = exp_category
+    }
+
+
+    fun ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: String, exp_category: Int) {
         this.exp_name = exp_name
         this.exp_amt = exp_amt
         this.exp_created = exp_created
@@ -43,11 +51,11 @@ class ExpenseRecord{
     fun setExpAmt(exp_amt: Int?){
         this.exp_amt = exp_amt
     }
-    fun getExpCreated() : Timestamp? {
+    fun getExpCreated() : String? {
         return exp_created
     }
 
-    fun setExpCreated(exp_created: Timestamp){
+    fun setExpCreated(exp_created: String){
         this.exp_created = exp_created
     }
 
