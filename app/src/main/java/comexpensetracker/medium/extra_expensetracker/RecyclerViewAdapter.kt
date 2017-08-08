@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat.getDescription
 import android.support.v4.app.NotificationCompat.getCategory
+import android.R.attr.data
+
+
 
 
 
@@ -77,4 +80,5 @@ class RecyclerViewAdapter(context: Context, recyclerViewItems: List<Any>) : Recy
     override fun getItemCount(): Int {
         return  mRecyclerViewItems!!.size
     }
+
 }

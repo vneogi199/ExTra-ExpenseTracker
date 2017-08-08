@@ -1,7 +1,6 @@
 package comexpensetracker.medium.extra_expensetracker
 
-import android.widget.CheckBox
-import android.R.attr.description
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 
@@ -10,15 +9,14 @@ import android.widget.TextView
 /**
  * Created by akash on 23/7/17.
  */
-class ExpenseViewHolder {
+class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var checkbox: CheckBox = null!!
-    var description: TextView = null!!
-
-    fun ExpenseViewHolder(itemView: View) {
-        //super(itemView)
-        //description = itemView.findViewById(R.id.description) as TextView
-        //checkbox = itemView.findViewById(R.id.checkbox) as CheckBox
+    var timestampText:TextView?  = null
+    var nameText:TextView? = null
+    var amtText:TextView? = null
+    init {
+        timestampText = itemView.findViewById(R.id.timestampText) as TextView
+        nameText = itemView.findViewById(R.id.nameText) as TextView
+        amtText = itemView.findViewById(R.id.amtText) as TextView
     }
-
 }

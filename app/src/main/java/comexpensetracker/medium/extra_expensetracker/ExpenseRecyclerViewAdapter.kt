@@ -4,87 +4,44 @@ import android.view.View.OnLongClickListener
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.R.attr.description
 import android.graphics.Paint
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.R.attr.description
+import android.R.attr.data
+
+
+
+
 
 
 
 /**
  * Created by akash on 23/7/17.
  */
-class ExpenseRecyclerViewAdapter {
+class ExpenseRecyclerViewAdapter : RecyclerView.Adapter<ExpenseViewHolder>() {
 
-    var data: MutableList<ExpenseRecord> = ArrayList()
+    var data:List<ExpenseRecord> = ArrayList<ExpenseRecord>()
 
-    interface Interactor {
-        fun onTodoClicked(position: Int, record: ExpenseRecord)
-        fun onTodoLongClicked(position: Int, record: ExpenseRecord)
+    override fun onBindViewHolder(holder: ExpenseViewHolder?, position: Int) {
+        val expenseRecord:ExpenseRecord = data[position]
+        holder?.timestampText?.text = expenseRecord.getExpCreated()
+        holder?.nameText?.text = expenseRecord.getExpName()
+        holder?.amtText?.text = expenseRecord.getExpAmt().toString()
     }
 
-    var interactor: Interactor = null!!
-
-    fun ToDoRecyclerViewAdapter(interactor: Interactor) {
-        this.interactor = interactor
-    }
-
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int) {
-        //val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_todo, parent, false)
-        //return ExpenseViewHolder(view)
-    }
-
-    fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
-        val todoRecord = data[position]
-        //holder.description.setText(todoRecord.getTitle())
-        //holder.checkbox.setChecked(todoRecord.getCompleted())
-
-        /*
-        if (todoRecord.getCompleted()) {
-            holder.description.setPaintFlags(holder.description.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
-        } else {
-            holder.description.setPaintFlags(holder.description.getPaintFlags() and Paint.STRIKE_THRU_TEXT_FLAG.inv())
-        }
-
-        holder.itemView.setOnLongClickListener(object : View.OnLongClickListener() {
-            fun onLongClick(v: View): Boolean {
-                interactor.onTodoLongClicked(position, todoRecord)
-                return true
-            }
-        })
-
-        holder.itemView.setOnClickListener(object : View.OnClickListener() {
-            fun onClick(v: View) {
-                interactor.onTodoClicked(position, todoRecord)
-            }
-        })
-
-        holder.checkbox.setClickable(false)
-    }
-
-    fun getItemCount(): Int {
+    override fun getItemCount(): Int {
         return data.size
     }
 
-    fun setData(recordList: MutableList<ExpenseRecord>) {
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ExpenseViewHolder {
+        val view:View = LayoutInflater.from(parent?.context).inflate(R.layout.expense_list_item, parent, false)
+        return ExpenseViewHolder(view)
+    }
+
+    fun setExpense(recordList: List<ExpenseRecord>) {
         this.data = recordList
         notifyDataSetChanged()
     }
-
-    fun deleteData(position: Int, record: ExpenseRecord) {
-        this.data.removeAt(position)
-        notifyDataSetChanged()
-    }
-
-    fun updateData(position: Int, record: ExpenseRecord) {
-        this.data[position] = record
-        notifyDataSetChanged()
-    }
-
-    fun addData(record: ExpenseRecord) {
-        this.data.add(record)
-        notifyDataSetChanged()
-    }
-    */
-
-}
 }
