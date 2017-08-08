@@ -58,7 +58,7 @@ class ViewExpense : AppCompatActivity() {
         try {
 //            val jsonObject = JSONObject("  {\"type\":\"select\"," +
 //                    " \"args\":{" +
-//                    "\"table\":\"expense\", \"columns"\: ["id", "title"],
+//                    "\"table\":\"expense_info_view\", \"columns"\: ["id", "title"],
 //                    "}" +
 //                    "}")
 
@@ -66,10 +66,10 @@ class ViewExpense : AppCompatActivity() {
             columnsArray.put("exp_name")
             columnsArray.put("exp_amt")
             columnsArray.put("exp_created")
-            columnsArray.put("exp_category")
+            columnsArray.put("category_name")
 
             var args = JSONObject()
-            args.put("table", "expense")
+            args.put("table", "expense_info_view")
             args.put("columns", columnsArray)
 
             var userIDQuery = JSONObject()
@@ -89,8 +89,10 @@ class ViewExpense : AppCompatActivity() {
                         override fun onSuccess(response: List<ExpenseRecord>) {
                             var JSONresponse:String = ""
                                 for (record in response) {
-                                    JSONresponse += record.toString()
+                                    //Log.i("ResponseRecord", record.toString())
+                                    //JSONresponse += record.toString()
                                 }
+                            Log.d("JSONArray",response.toString())
                             displayExpenses(JSONresponse)
                             //adapter.setData(response)
                         }
@@ -132,10 +134,10 @@ class ViewExpense : AppCompatActivity() {
                 var expenseItemObject = expenseItemsJsonArray.getJSONObject(i)
                 var expensename:String = expenseItemObject.getString("exp_name")
                 var expenseamt:Int = expenseItemObject.getInt("exp_amt")
-                var expensecategory:Int = expenseItemObject.getInt("exp_category")
+                var categoryname:String = expenseItemObject.getString("category_name")
                 var expensecreated: String = expenseItemObject.getString("exp_created")
 
-                var expenseRecord:ExpenseRecord = ExpenseRecord(expensename, expenseamt, expensecreated, expensecategory)
+                var expenseRecord:ExpenseRecord = ExpenseRecord(expensename, expenseamt, expensecreated, categoryname)
 
                 mRecyclerViewItems+=expenseRecord
             }

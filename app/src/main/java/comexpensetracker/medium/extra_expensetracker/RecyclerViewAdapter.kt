@@ -34,20 +34,21 @@ class RecyclerViewAdapter(context: Context, recyclerViewItems: List<Any>) : Recy
     }
 
     class ExpenseViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        var exp_name: String = ""
-        var exp_amt: Int? = null
-        var exp_created: String? = null
-        var exp_category: Int? = null
+        var timestampText:TextView?  = null
+        var nameText:TextView? = null
+        var amtText:TextView? = null
         init {
-            var timestampText:TextView = itemView.findViewById(R.id.timestampText) as TextView
-            var nameText:TextView = itemView.findViewById(R.id.nameText) as TextView
-            var amtText:TextView = itemView.findViewById(R.id.amtText) as TextView
+            timestampText = itemView?.findViewById(R.id.timestampText) as TextView
+            nameText = itemView.findViewById(R.id.nameText) as TextView
+            amtText = itemView.findViewById(R.id.amtText) as TextView
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        if(viewType==MENU_ITEM_VIEW_TYPE){}
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder? {
+        if(viewType==MENU_ITEM_VIEW_TYPE){
+            return  null
+        }
         else{
             var expenseItemLayoutView: View? = LayoutInflater.from(parent?.context).inflate(R.layout.expense_list_item, parent, false)
             return ExpenseViewHolder(expenseItemLayoutView)
@@ -59,23 +60,21 @@ class RecyclerViewAdapter(context: Context, recyclerViewItems: List<Any>) : Recy
         if(viewType == MENU_ITEM_VIEW_TYPE){}
         else{
             val expenseItemHolder = holder as ExpenseViewHolder
-            val menuItem = mRecyclerViewItems.get(position) as Pojo
+            val expenseItem = mRecyclerViewItems?.get(position) as ExpenseRecord
 
             // Get the menu item image resource ID.
-            val imageName = menuItem.getImageName()
-            val imageResID = mContext.getResources().getIdentifier(imageName, "drawable",
-                    mContext.getPackageName())
+            //val imageName = menuItem.getImageName()
+            //val imageResID = mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName())
 
             // Add the menu item details to the menu item view.
-            menuItemHolder.menuItemImage.setImageResource(imageResID)
-            menuItemHolder.menuItemName.setText(menuItem.getName())
-            menuItemHolder.menuItemPrice.setText(menuItem.getPrice())
-            menuItemHolder.menuItemCategory.setText(menuItem.getCategory())
-            menuItemHolder.menuItemDescription.setText(menuItem.getDescription())
+            //expenseItemHolder.menuItemImage.setImageResource(imageResID)
+            expenseItemHolder.timestampText?.text = expenseItem.getExpCreated()
+            expenseItemHolder.nameText?.text = expenseItem.getExpName()
+            expenseItemHolder.amtText?.setText(expenseItem.getExpAmt())
         }
     }
 
     override fun getItemCount(): Int {
-        return  mRecyclerViewItems.size
+        return  mRecyclerViewItems!!.size
     }
 }
