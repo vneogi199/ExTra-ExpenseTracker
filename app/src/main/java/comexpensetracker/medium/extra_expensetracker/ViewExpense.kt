@@ -31,7 +31,8 @@ class ViewExpense : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.list_of_expenses) as RecyclerView?
         val layoutManager = LinearLayoutManager(this)
-
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        adapter = ExpenseRecyclerViewAdapter()
         recyclerView?.layoutManager = layoutManager
         recyclerView?.adapter = adapter
 
@@ -50,9 +51,10 @@ class ViewExpense : AppCompatActivity() {
 //        val image: ImageView = findViewById(R.id.image_view) as ImageView
 //        image.setImageDrawable(drawable2)
         fetchExpensesFromDB()
+
     }
 
-    private fun fetchExpensesFromDB() {
+    fun fetchExpensesFromDB() {
         try {
 //            val jsonObject = JSONObject("  {\"type\":\"select\"," +
 //                    " \"args\":{" +

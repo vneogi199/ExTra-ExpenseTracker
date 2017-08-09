@@ -1,20 +1,11 @@
 package comexpensetracker.medium.extra_expensetracker
 
-import android.view.View.OnLongClickListener
-import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
-import android.R.attr.description
-import android.graphics.Paint
+
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.R.attr.description
-import android.R.attr.data
-
-
-
-
-
+import android.util.Log
 
 
 /**

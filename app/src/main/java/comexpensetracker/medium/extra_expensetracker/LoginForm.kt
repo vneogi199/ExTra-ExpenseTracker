@@ -82,7 +82,7 @@ class LoginForm : BaseActivity() {
             user.login(object : AuthResponseListener {
                 override fun onSuccess(p0: String?) {
                     Toast.makeText(applicationContext, "Logged in", Toast.LENGTH_SHORT).show()
-                    val myIntent = Intent(this@LoginForm, ViewExpense::class.java)
+                    val myIntent = Intent(this@LoginForm, AddExpense::class.java)
                     startActivity(myIntent)
                 }
 
