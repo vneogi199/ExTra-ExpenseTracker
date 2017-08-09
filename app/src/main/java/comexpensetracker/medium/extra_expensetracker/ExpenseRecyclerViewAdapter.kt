@@ -23,6 +23,7 @@ class ExpenseRecyclerViewAdapter : RecyclerView.Adapter<ExpenseViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        Log.d("TAG", data.size.toString())
         return data.size
     }
 

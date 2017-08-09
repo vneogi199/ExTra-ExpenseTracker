@@ -22,19 +22,15 @@ import java.util.*
 class ViewExpense : AppCompatActivity() {
     val client = Hasura.getClient()!!
     var user : HasuraUser = Hasura.getClient().user
-    var adapter: ExpenseRecyclerViewAdapter? = null
+    var adapter: ExpenseRecyclerViewAdapter? = ExpenseRecyclerViewAdapter()
     var recyclerView: RecyclerView? = null
+    val layoutManager = LinearLayoutManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_expense)
 
-        recyclerView = findViewById(R.id.list_of_expenses) as RecyclerView?
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        adapter = ExpenseRecyclerViewAdapter()
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.adapter = adapter
+
 
         try {
             Hasura.setProjectConfig(ProjectConfig.Builder()
@@ -51,6 +47,7 @@ class ViewExpense : AppCompatActivity() {
 //        val image: ImageView = findViewById(R.id.image_view) as ImageView
 //        image.setImageDrawable(drawable2)
         fetchExpensesFromDB()
+
 
     }
 
@@ -90,6 +87,10 @@ class ViewExpense : AppCompatActivity() {
                                 for (record in response) {
                                     Log.i("ResponseRecord", record.toString())
                                 }
+                            recyclerView = findViewById(R.id.list_of_expenses) as RecyclerView?
+                            layoutManager.orientation = LinearLayoutManager.VERTICAL
+                            recyclerView?.layoutManager = layoutManager
+                            recyclerView?.adapter = adapter
                             adapter?.setExpense(response)
                         }
 
