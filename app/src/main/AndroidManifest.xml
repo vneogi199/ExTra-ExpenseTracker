@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AddExpense"
@@ -24,7 +20,13 @@
         <activity android:name=".IntroSlider" />
         <activity android:name=".RegisterForm" />
         <activity android:name=".LoginForm" />
-        <activity android:name=".ViewExpense">
+        <activity android:name=".ViewExpense" />
+        <activity android:name=".ViewGraph">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
