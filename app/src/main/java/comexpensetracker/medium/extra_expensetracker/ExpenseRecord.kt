@@ -18,18 +18,10 @@ class ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: String, categor
     @SerializedName("exp_created")
     var exp_created: String? = null
 
-    @SerializedName("exp_category")
+    @SerializedName("category_name")
     var category_name: String? = null
 
     init {
-        this.exp_name = exp_name
-        this.exp_amt = exp_amt
-        this.exp_created = exp_created
-        this.category_name = category_name
-    }
-
-
-    fun ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: String, category_name: String) {
         this.exp_name = exp_name
         this.exp_amt = exp_amt
         this.exp_created = exp_created
@@ -63,7 +55,7 @@ class ExpenseRecord(exp_name: String, exp_amt: Int, exp_created: String, categor
         return category_name
     }
 
-    fun setExpCategory(exp_category: String){
+    fun setExpCategory(category_name: String){
         this.category_name = category_name
     }
 
