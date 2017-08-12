@@ -7,9 +7,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.View
 import android.widget.*
 import io.hasura.sdk.Callback

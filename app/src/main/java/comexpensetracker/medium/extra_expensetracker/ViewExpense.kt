@@ -1,22 +1,21 @@
 package comexpensetracker.medium.extra_expensetracker
 
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
 import io.hasura.sdk.Callback
 import io.hasura.sdk.Hasura
 import io.hasura.sdk.HasuraUser
 import io.hasura.sdk.ProjectConfig
-import io.hasura.sdk.exception.HasuraInitException
 import io.hasura.sdk.exception.HasuraException
+import io.hasura.sdk.exception.HasuraInitException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 
 class ViewExpense : AppCompatActivity() {

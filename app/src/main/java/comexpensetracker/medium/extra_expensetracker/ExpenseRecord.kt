@@ -1,7 +1,6 @@
 package comexpensetracker.medium.extra_expensetracker
 
 import com.google.gson.annotations.SerializedName
-import java.sql.Timestamp
 
 
 /**

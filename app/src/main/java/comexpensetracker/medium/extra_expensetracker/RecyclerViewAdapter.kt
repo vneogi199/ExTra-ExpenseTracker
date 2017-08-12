@@ -6,12 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat.getDescription
-import android.support.v4.app.NotificationCompat.getCategory
-import android.R.attr.data
-
-
-
 
 
 /**

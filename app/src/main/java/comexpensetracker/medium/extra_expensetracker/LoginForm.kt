@@ -1,20 +1,15 @@
 package comexpensetracker.medium.extra_expensetracker
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import comexpensetracker.medium.extra_expensetracker.R.id.input_layout_username
-import comexpensetracker.medium.extra_expensetracker.R.id.input_username
 import io.hasura.sdk.Hasura
-import io.hasura.sdk.exception.HasuraException
 import io.hasura.sdk.HasuraUser
 import io.hasura.sdk.ProjectConfig
+import io.hasura.sdk.exception.HasuraException
 import io.hasura.sdk.exception.HasuraInitException
 import io.hasura.sdk.responseListener.AuthResponseListener
 

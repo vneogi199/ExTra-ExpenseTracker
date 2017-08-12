@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     tools:context="comexpensetracker.medium.extra_expensetracker.ViewGraph">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select analytic type :"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/spinner"/>
+    
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
         android:layout_width="match_parent"
