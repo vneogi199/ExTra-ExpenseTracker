@@ -55,7 +55,7 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val adapter = ArrayAdapter<String>(this@ViewAnalytics,
                 R.layout.activity_view_expense, options)
         //adapter.setDropDownViewResource()
-        TODO()
+        //TODO()
 
         showGraph()
     }

@@ -1,11 +1,15 @@
 package comexpensetracker.medium.extra_expensetracker
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import io.hasura.sdk.Callback
 import io.hasura.sdk.Hasura
@@ -24,11 +28,21 @@ class ViewExpense : AppCompatActivity() {
     var adapter: ExpenseRecyclerViewAdapter? = ExpenseRecyclerViewAdapter()
     var recyclerView: RecyclerView? = null
     val layoutManager = LinearLayoutManager(this)
+    var fabExpanded : Boolean = false
+
+    var fabNext : FloatingActionButton? = null
+
+    var layoutFabAddExpense : LinearLayout? = null
+    var layoutFabViewAnalytics : LinearLayout?= null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_expense)
 
+        fabNext = findViewById(R.id.nextBtn) as FloatingActionButton?
+        layoutFabAddExpense = findViewById(R.id.layoutAddExpense) as LinearLayout?
+        layoutFabViewAnalytics = findViewById(R.id.layoutViewAnalytics) as LinearLayout?
 
 
         try {
@@ -47,7 +61,11 @@ class ViewExpense : AppCompatActivity() {
 //        image.setImageDrawable(drawable2)
         fetchExpensesFromDB()
 
-
+        fabNext?.setOnClickListener{
+            if(fabExpanded) closeSubMenusFab()
+            else openSubMenusFab()
+        }
+        closeSubMenusFab()
     }
 
     fun fetchExpensesFromDB() {
@@ -103,5 +121,30 @@ class ViewExpense : AppCompatActivity() {
         } catch (e: JSONException) {
             Toast.makeText(this@ViewExpense, e.toString(), Toast.LENGTH_SHORT).show()
         }
+        layoutFabAddExpense?.setOnClickListener{
+            val addExpenseIntent = Intent(this@ViewExpense, AddExpense::class.java)
+            startActivity(addExpenseIntent)
+        }
+        layoutFabViewAnalytics?.setOnClickListener{
+            val viewAnalyticsIntent = Intent(this@ViewExpense, ViewAnalytics::class.java)
+            startActivity(viewAnalyticsIntent)
+        }
+    }
+
+    private fun closeSubMenusFab() {
+
+        layoutFabAddExpense?.visibility = View.INVISIBLE
+        layoutFabViewAnalytics?.visibility = View.INVISIBLE
+        fabNext?.setImageResource(R.drawable.ic_navigate_next_black_24dp)
+        fabExpanded = false
+    }
+
+    //Opens FAB submenus
+    private fun openSubMenusFab() {
+        layoutFabAddExpense?.visibility = View.VISIBLE
+        layoutFabViewAnalytics?.visibility = View.VISIBLE
+        //Change settings icon to 'X' icon
+        fabNext?.setImageResource(R.drawable.ic_close_black_24dp)
+        fabExpanded = true
     }
 }

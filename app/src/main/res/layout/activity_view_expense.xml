@@ -11,5 +11,8 @@
         android:id="@+id/list_of_expenses">
 
     </android.support.v7.widget.RecyclerView>
-    
+
+    <include layout="@layout/layout_fab_submenu"/>
+
+
 </RelativeLayout>
