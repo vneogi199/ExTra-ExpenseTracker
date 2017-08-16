@@ -68,4 +68,10 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="add_a_new_expense">Add a new Expense</string>
     <string name="view_analytics">View analytics</string>
+
+    <string-array name="dropdown_list">
+        <item>Graph</item>
+        <item>Pie Chart</item>
+    </string-array>
+
 </resources>

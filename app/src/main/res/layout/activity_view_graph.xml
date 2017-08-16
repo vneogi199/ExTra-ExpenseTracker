@@ -6,18 +6,32 @@
     tools:context="comexpensetracker.medium.extra_expensetracker.ViewGraph">
 
     <TextView
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select analytic type :"/>
 
     <Spinner
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/spinner"/>
+
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchart"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
     
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>
