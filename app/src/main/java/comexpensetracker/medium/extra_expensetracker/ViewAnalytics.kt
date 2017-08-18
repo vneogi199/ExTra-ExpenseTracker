@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import io.hasura.sdk.*
@@ -20,9 +20,6 @@ import io.hasura.sdk.exception.HasuraInitException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import android.widget.ArrayAdapter
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarDataSet
 
 
 /**
@@ -58,8 +55,9 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         spinner?.onItemSelectedListener = this
     }
 
-    fun showPieChart() {
+    private fun showPieChart() {
         var pieChart: PieChart = findViewById(R.id.piechart) as PieChart
+        pieChart.visibility = View.VISIBLE
         pieChart.setUsePercentValues(true)
         var totalArray = IntArray(9)
         for(i in 0..8) totalArray[i] = 0
@@ -127,8 +125,8 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                             }
 
-                            var data_set:PieDataSet = PieDataSet(expenseArray, "")
-                            var data:PieData = PieData(xVals, data_set)
+                            var data_set = PieDataSet(expenseArray, "")
+                            var data = PieData(xVals, data_set)
                             data.setValueFormatter(PercentFormatter())
                             pieChart.data = data
                             pieChart.setDescription("")
@@ -141,8 +139,6 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         }
 
                         override fun onFailure(e: HasuraException) {
-//                            hideProgressIndicator()
-//                            handleError(e)
                             Toast.makeText(this@ViewAnalytics, e.toString(), Toast.LENGTH_SHORT).show()
                         }
                     })
@@ -152,15 +148,15 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    fun showGraph() {
+    private fun showGraph() {
         var barChart: BarChart = findViewById(R.id.barchart) as BarChart
+        barChart.visibility = View.VISIBLE
         var totalArray = IntArray(9)
         for(i in 0..8) totalArray[i] = 0
-        var expenseArray : ArrayList<Entry> = ArrayList()
         var categoryValues : ArrayList<String> = ArrayList()
         categoryValues.add("Bills")
         categoryValues.add("Groceries")
-        categoryValues.add("Entertainment")
+        categoryValues.add("Entmnt")
         categoryValues.add("Fuel")
         categoryValues.add("Food")
         categoryValues.add("Health")
@@ -168,7 +164,9 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         categoryValues.add("Shopping")
         categoryValues.add("Other")
 
-        var xVals : ArrayList<String> = ArrayList()
+        var entries : ArrayList<BarEntry> = ArrayList()
+        var labels : ArrayList<String> = ArrayList()
+
         try {
 //            val jsonObject = JSONObject("  {\"type\":\"select\"," +
 //                    " \"args\":{" +
@@ -212,30 +210,36 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                                     else -> Toast.makeText(this@ViewAnalytics, "Error while calculating", Toast.LENGTH_SHORT).show()
                                 }
                             }
+
+                            var pos =0
                             for(i in 0..8){
                                 if(totalArray[i] != 0){
-                                    expenseArray.add(Entry(totalArray[i].toFloat(), i))
-                                    xVals.add(categoryValues[i])
+                                    entries.add(BarEntry(totalArray[i].toFloat(), pos))
+                                    labels.add(categoryValues[i])
+                                    pos++
                                 }
-
                             }
 
-                            var bardataset: BarDataSet = BarDataSet(entries, "Categories")
-                            var data:PieData = PieData(xVals, data_set)
-                            data.setValueFormatter(PercentFormatter())
-                            pieChart.data = data
-                            pieChart.setDescription("")
-                            pieChart.isDrawHoleEnabled = false
-                            data_set.setColors(ColorTemplate.JOYFUL_COLORS)
-                            var legend:Legend = pieChart.legend
+                            var labelsArray = arrayOfNulls<String>(labels.size)
+                            var emptyLabels = ArrayList<String>()
+                            var index = 0
+                            for (label in labels) {
+                                labelsArray[index] = labels[index]
+                                emptyLabels.add("")
+                                index++
+                            }
+
+                            var bardataset = BarDataSet(entries, "")
+                            var data = BarData(labels, bardataset)
+                            barChart.data = data
+                            barChart.setDescription("")
+                            bardataset.setColors(ColorTemplate.COLORFUL_COLORS)
+                            var legend = barChart.legend
                             legend.isEnabled = false
-                            data.setValueTextSize(15f)
-                            pieChart.invalidate()
+                            barChart.invalidate()
                         }
 
                         override fun onFailure(e: HasuraException) {
-//                            hideProgressIndicator()
-//                            handleError(e)
                             Toast.makeText(this@ViewAnalytics, e.toString(), Toast.LENGTH_SHORT).show()
                         }
                     })
@@ -249,10 +253,24 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if(position == 0){}
+        if(position == 0){
+            hidePieChart()
+            showGraph()
+        }
         else{
+            hideGraph()
             showPieChart()
         }
+    }
+
+    private fun hideGraph(){
+        val graph : BarChart = findViewById(R.id.barchart) as BarChart
+        graph.visibility = View.INVISIBLE
+    }
+
+    private fun hidePieChart(){
+        val piechart : PieChart = findViewById(R.id.piechart) as PieChart
+        piechart.visibility = View.INVISIBLE
     }
 
 }

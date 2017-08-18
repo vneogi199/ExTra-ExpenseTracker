@@ -19,13 +19,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner"/>
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchart"
+            android:layout_width="700dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:rotation="90"
+            />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barchart"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+
     
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
