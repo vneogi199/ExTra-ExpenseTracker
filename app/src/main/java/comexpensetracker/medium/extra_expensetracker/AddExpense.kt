@@ -68,7 +68,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
 
         } else {
             Toast.makeText(this@AddExpense, "Please login", Toast.LENGTH_LONG).show()
-            var intent : Intent = Intent(this@AddExpense, LoginForm::class.java)
+            val intent = Intent(this@AddExpense, LoginForm::class.java)
             startActivity(intent)
         }
 
@@ -81,7 +81,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
             month = calendar.get(Calendar.MONTH)
             day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            val datePickerDialog : DatePickerDialog = DatePickerDialog(this@AddExpense, this@AddExpense, year, month, day)
+            val datePickerDialog = DatePickerDialog(this@AddExpense, this@AddExpense, year, month, day)
             datePickerDialog.show()
 
         }
@@ -294,7 +294,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         hour = calendar.get(Calendar.HOUR_OF_DAY)
         minute = calendar.get(Calendar.MINUTE)
 
-        val timePickerDialog : TimePickerDialog = TimePickerDialog(this@AddExpense, this@AddExpense, hour, minute, DateFormat.is24HourFormat(this))
+        val timePickerDialog = TimePickerDialog(this@AddExpense, this@AddExpense, hour, minute, DateFormat.is24HourFormat(this))
         timePickerDialog.show()
     }
 
@@ -308,7 +308,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         minuteFinal = minuteSelected
 
         val s = prependZero(dayFinal) + "/" + prependZero(monthFinal) + "/" + yearFinal.toString()+ " " +prependZero(hourFinal)+ ":" +prependZero(minuteFinal)
-        val simpleDateFormat = SimpleDateFormat("MM/dd/yyyy HH:mm")
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
         try {
             val date = simpleDateFormat.parse(s)
             expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(date.toString())
@@ -334,14 +334,14 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
             Toast.makeText(applicationContext, "Please select the expense category", Toast.LENGTH_SHORT).show()
             return@insertExpense
         }
-        var expenseNotesText: EditText = findViewById(R.id.expenseNotesText) as EditText
+        val expenseNotesText: EditText = findViewById(R.id.expenseNotesText) as EditText
         if(expenseNotesText.text.toString().isEmpty()) {
             noteInput = ""
         }
         else{
             noteInput = expenseNotesText.text.toString()
         }
-        var expenseTagText : EditText = findViewById(R.id.expenseTagsText) as EditText
+        val expenseTagText : EditText = findViewById(R.id.expenseTagsText) as EditText
         if(expenseTagText.text.toString().isEmpty()) {
             tagInput = ""
         }
