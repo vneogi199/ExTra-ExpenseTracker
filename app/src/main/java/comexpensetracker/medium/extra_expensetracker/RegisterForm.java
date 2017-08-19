@@ -128,6 +128,7 @@ public class RegisterForm extends AppCompatActivity {
 
                     JSONObject nameJSON = new JSONObject();
                     nameJSON.put("name", username);
+                    nameJSON.put("user_id", user.getId());
 
                     JSONArray colsList = new JSONArray();
                     colsList.put(nameJSON);
