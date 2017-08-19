@@ -221,11 +221,9 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             }
 
                             var labelsArray = arrayOfNulls<String>(labels.size)
-                            var emptyLabels = ArrayList<String>()
                             var index = 0
                             for (label in labels) {
                                 labelsArray[index] = labels[index]
-                                emptyLabels.add("")
                                 index++
                             }
 
@@ -234,6 +232,7 @@ class ViewAnalytics : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                             barChart.data = data
                             barChart.setDescription("")
                             bardataset.setColors(ColorTemplate.COLORFUL_COLORS)
+                            data.setValueTextSize(8f)
                             var legend = barChart.legend
                             legend.isEnabled = false
                             barChart.invalidate()
