@@ -374,6 +374,7 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
                         override fun onSuccess(p0: InsertExpenseResult?) {
                             Toast.makeText(applicationContext, "Expense Recorded", Toast.LENGTH_LONG).show()
                             hideProgressIndicator()
+                            startActivity(Intent(this@AddExpense, ViewExpense::class.java))
                         }
                         override fun onFailure(e: HasuraException) {
                             hideProgressIndicator()
