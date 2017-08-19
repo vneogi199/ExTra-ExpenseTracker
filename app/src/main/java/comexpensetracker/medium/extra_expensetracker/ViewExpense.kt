@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import io.hasura.sdk.Callback
 import io.hasura.sdk.Hasura
@@ -109,11 +110,13 @@ class ViewExpense : AppCompatActivity() {
                             recyclerView?.adapter = adapter
                             adapter?.setExpense(response)
                             recyclerView?.addItemDecoration(DividerItemDecoration(this@ViewExpense,DividerItemDecoration.VERTICAL))
+                            if(adapter?.itemCount == 0){
+                                val emptyMessage : TextView = findViewById(R.id.emptyMessage) as TextView
+                                emptyMessage.text = "To input an expense, press the button below."
+                            }
                         }
 
                         override fun onFailure(e: HasuraException) {
-//                            hideProgressIndicator()
-//                            handleError(e)
                             Toast.makeText(this@ViewExpense, e.toString(), Toast.LENGTH_SHORT).show()
                         }
                     })

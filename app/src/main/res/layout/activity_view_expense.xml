@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context="comexpensetracker.medium.extra_expensetracker.ViewExpense">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/emptyMessage"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"/>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
