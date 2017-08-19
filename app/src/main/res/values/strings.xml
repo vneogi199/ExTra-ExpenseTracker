@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">ExTra - ExpenseTracker</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_start_screen">StartScreen</string>
     <string name="action_settings">Settings</string>
@@ -68,6 +67,12 @@
     <string name="already_have_an_account">Already have an account?</string>
     <string name="add_a_new_expense">Add a new Expense</string>
     <string name="view_analytics">View analytics</string>
+    <string name="food">Food</string>
+    <string name="_01_01_2017_10_00_am">01/01/2017 10:00 AM</string>
+    <string name="expense_category_icon">Expense Category Icon</string>
+    <string name="_150">₹150</string>
+    <string name="logout">Logout</string>
+    <string name="create_acc">Create a new account</string>
 
     <string-array name="dropdown_list">
         <item>Graph</item>

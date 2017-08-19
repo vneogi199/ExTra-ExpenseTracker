@@ -1,7 +1,6 @@
 package comexpensetracker.medium.extra_expensetracker;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Timestamp;
 
 /**
  * Created by vinit on 23/7/17.
@@ -22,7 +21,7 @@ public class InsertExpenseResult {
     Integer exp_amt;
 
     @SerializedName("exp_created")
-    Timestamp exp_created;
+    String exp_created;
 
     @SerializedName("exp_note")
     String exp_note;
@@ -34,7 +33,7 @@ public class InsertExpenseResult {
     Integer exp_category;
 
 
-    public InsertExpenseResult(Integer user_id, String exp_name,  Integer exp_amt, Timestamp exp_created, Integer exp_category) {
+    public InsertExpenseResult(Integer user_id, String exp_name,  Integer exp_amt, String  exp_created, Integer exp_category) {
         this.user_id=user_id;
         this.exp_name=exp_name;
         this.exp_amt=exp_amt;
@@ -59,7 +58,7 @@ public class InsertExpenseResult {
         this.exp_amt = exp_amt;
     }
 
-    public void setExp_created(Timestamp exp_created) {
+    public void setExp_created(String exp_created) {
         this.exp_created = exp_created;
     }
 
@@ -92,7 +91,7 @@ public class InsertExpenseResult {
         return exp_amt;
     }
 
-    public Timestamp getExp_created() {
+    public String getExp_created() {
         return exp_created;
     }
 

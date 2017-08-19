@@ -3,6 +3,7 @@ package comexpensetracker.medium.extra_expensetracker
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -63,7 +64,7 @@ class LoginForm : BaseActivity() {
         inputLayoutPassword = findViewById(R.id.input_layout_password) as TextInputLayout
 
         val client = Hasura.getClient()
-        var user: HasuraUser = client.user
+        val user: HasuraUser = client.user
         val btnLogin: Button = findViewById(R.id.btn_login) as Button
         btnLogin.setOnClickListener({
             if (!validateUsername()) return@setOnClickListener
@@ -86,5 +87,10 @@ class LoginForm : BaseActivity() {
                 }
             })
         })
+    }
+
+    fun registerActivityOpen(view: View) {
+        val i = Intent(this@LoginForm, RegisterForm::class.java)
+        startActivity(i)
     }
 }

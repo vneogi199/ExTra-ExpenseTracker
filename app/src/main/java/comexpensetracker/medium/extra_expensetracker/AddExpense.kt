@@ -19,28 +19,28 @@ import io.hasura.sdk.exception.HasuraInitException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 
 class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
 
-    var day : Int = 0
-    var month : Int = 0
-    var year : Int = 0
-    var hour : Int = 0
-    var minute : Int = 0
+    private var day : Int = 0
+    private var month : Int = 0
+    private var year : Int = 0
+    private var hour : Int = 0
+    private var minute : Int = 0
 
-    var dayFinal : Int = 0
-    var monthFinal : Int = 0
-    var yearFinal : Int = 0
-    var hourFinal : Int = 0
-    var minuteFinal : Int = 0
+    private var dayFinal : Int = 0
+    private var monthFinal : Int = 0
+    private var yearFinal : Int = 0
+    private var hourFinal : Int = 0
+    private var minuteFinal : Int = 0
 
-    var expenseTimestampText : EditText ?= null
+    private var date : Date? = null
+    var s: String = ""
+    var expenseTimestampText : EditText? = null
 
-    val client = Hasura.getClient()!!
+    private val client = Hasura.getClient()!!
     var user : HasuraUser = Hasura.getClient().user
 
     var expenseNameText : EditText ?= null
@@ -298,8 +298,8 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         timePickerDialog.show()
     }
 
-    fun prependZero(value : Int): String {
-        if(value.toString().length == 0) return "00"
+    private fun prependZero(value : Int): String {
+        if(value.toString().isEmpty()) return "00"
         else if (value.toString().length == 1) return "0" +value.toString()
         else return value.toString()
     }
@@ -307,14 +307,8 @@ class AddExpense : BaseActivity(), OnDateSetListener, OnTimeSetListener {
         hourFinal = hourOfDaySelected
         minuteFinal = minuteSelected
 
-        val s = prependZero(dayFinal) + "/" + prependZero(monthFinal) + "/" + yearFinal.toString()+ " " +prependZero(hourFinal)+ ":" +prependZero(minuteFinal)
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
-        try {
-            val date = simpleDateFormat.parse(s)
-            expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(date.toString())
-        } catch (ex: ParseException) {
-            Toast.makeText(this@AddExpense, ex.toString(), Toast.LENGTH_SHORT).show()
-        }
+        s = prependZero(dayFinal) + "/" + prependZero(monthFinal) + "/" + yearFinal.toString()+ " " +prependZero(hourFinal)+ ":" +prependZero(minuteFinal)
+        expenseTimestampText?.text = Editable.Factory.getInstance().newEditable(s)
     }
 
     fun insertExpense(v : View){
