@@ -1,4 +1,8 @@
-### This app is under development and thus may be unstable.
+### This app is not further supported and is discontinued.
+
+
+Demo: [linkname](https://www.youtube.com/watch?v=zvnPo-wN5nw)
+
 
 'ExTra - Expense Tracker' will allow us to view the things we spend the most money on. It will detect the user’s spending patterns. It can also detect some unnecessary expenses (such as street food). Thus, it may help to cut down such expenses thereby, helping us to save money.
 
