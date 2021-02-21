@@ -1,6 +1,3 @@
-### This app is not further supported and is discontinued.
-
-
 Demo: [ExTra-ExpenseTracker](https://www.youtube.com/watch?v=zvnPo-wN5nw)
 
 
